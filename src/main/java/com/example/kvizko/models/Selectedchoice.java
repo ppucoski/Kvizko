@@ -1,9 +1,11 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "selectedchoice")
 public class Selectedchoice {
 
   @Id
@@ -11,33 +13,12 @@ public class Selectedchoice {
 
   @Id
   private long choiceid;
-  private long attemptid;
+
+  @ManyToOne
+  @JoinColumn(name = "attemptid")
+  private Attempt attempt;
+  //private long attemptid;
 
 
-  public long getSelectedchoiceid() {
-    return selectedchoiceid;
-  }
-
-  public void setSelectedchoiceid(long selectedchoiceid) {
-    this.selectedchoiceid = selectedchoiceid;
-  }
-
-
-  public long getChoiceid() {
-    return choiceid;
-  }
-
-  public void setChoiceid(long choiceid) {
-    this.choiceid = choiceid;
-  }
-
-
-  public long getAttemptid() {
-    return attemptid;
-  }
-
-  public void setAttemptid(long attemptid) {
-    this.attemptid = attemptid;
-  }
 
 }

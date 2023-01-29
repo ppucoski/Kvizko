@@ -2,8 +2,12 @@ package com.example.kvizko.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "quiztaker_participates_in_tournament")
 public class QuiztakerParticipatesInTournament {
 
   @Id
@@ -13,21 +17,5 @@ public class QuiztakerParticipatesInTournament {
   private long tournamentid;
 
 
-  public long getUserid() {
-    return userid;
-  }
-
-  public void setUserid(long userid) {
-    this.userid = userid;
-  }
-
-
-  public long getTournamentid() {
-    return tournamentid;
-  }
-
-  public void setTournamentid(long tournamentid) {
-    this.tournamentid = tournamentid;
-  }
 
 }

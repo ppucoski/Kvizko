@@ -1,41 +1,23 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name="category")
 public class Category {
 
   @Id
   private long categoryid;
-  private long subjectid;
+
+  @ManyToOne
+  @JoinColumn(name="subjectid")
+  private Subject subject;
+  //private long subjectid;
+
   private String categoryname;
 
 
-  public long getCategoryid() {
-    return categoryid;
-  }
-
-  public void setCategoryid(long categoryid) {
-    this.categoryid = categoryid;
-  }
-
-
-  public long getSubjectid() {
-    return subjectid;
-  }
-
-  public void setSubjectid(long subjectid) {
-    this.subjectid = subjectid;
-  }
-
-
-  public String getCategoryname() {
-    return categoryname;
-  }
-
-  public void setCategoryname(String categoryname) {
-    this.categoryname = categoryname;
-  }
 
 }

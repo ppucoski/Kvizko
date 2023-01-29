@@ -2,8 +2,12 @@ package com.example.kvizko.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "user_table")
 public class UserTable {
 
   @Id
@@ -13,39 +17,5 @@ public class UserTable {
   private String passwordAttr;
 
 
-  public long getUserid() {
-    return userid;
-  }
-
-  public void setUserid(long userid) {
-    this.userid = userid;
-  }
-
-
-  public String getFullname() {
-    return fullname;
-  }
-
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
-
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-
-  public String getPasswordAttr() {
-    return passwordAttr;
-  }
-
-  public void setPasswordAttr(String passwordAttr) {
-    this.passwordAttr = passwordAttr;
-  }
 
 }

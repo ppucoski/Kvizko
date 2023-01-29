@@ -1,41 +1,23 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name="hint")
 public class Hint {
 
   @Id
   private long hintid;
   private String hinttext;
-  private long questionid;
+
+  @OneToOne
+  @JoinColumn(name="questionid")
+  private Question question;
+  /*private long questionid;*/
 
 
-  public long getHintid() {
-    return hintid;
-  }
 
-  public void setHintid(long hintid) {
-    this.hintid = hintid;
-  }
-
-
-  public String getHinttext() {
-    return hinttext;
-  }
-
-  public void setHinttext(String hinttext) {
-    this.hinttext = hinttext;
-  }
-
-
-  public long getQuestionid() {
-    return questionid;
-  }
-
-  public void setQuestionid(long questionid) {
-    this.questionid = questionid;
-  }
 
 }

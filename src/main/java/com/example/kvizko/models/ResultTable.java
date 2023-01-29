@@ -1,41 +1,22 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "result_table")
 public class ResultTable {
 
   @Id
   private long resultid;
-  private long attemptid;
+
+  @OneToOne
+  @JoinColumn(name = "attemptid")
+  private Attempt attempt;
+  //private long attemptid;
   private long points;
 
 
-  public long getResultid() {
-    return resultid;
-  }
-
-  public void setResultid(long resultid) {
-    this.resultid = resultid;
-  }
-
-
-  public long getAttemptid() {
-    return attemptid;
-  }
-
-  public void setAttemptid(long attemptid) {
-    this.attemptid = attemptid;
-  }
-
-
-  public long getPoints() {
-    return points;
-  }
-
-  public void setPoints(long points) {
-    this.points = points;
-  }
 
 }

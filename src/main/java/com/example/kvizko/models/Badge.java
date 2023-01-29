@@ -1,51 +1,27 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import javax.xml.transform.Result;
 
 @Entity
+@Data
+@Table(name="badge")
 public class Badge {
 
   @Id
   private long badgeid;
+
   private String badgename;
+
   private String description;
-  private long resultid;
+
+  @ManyToOne
+  @JoinColumn(name="resultid")
+  private ResultTable result;
+  //private long resultid;
 
 
-  public long getBadgeid() {
-    return badgeid;
-  }
-
-  public void setBadgeid(long badgeid) {
-    this.badgeid = badgeid;
-  }
-
-
-  public String getBadgename() {
-    return badgename;
-  }
-
-  public void setBadgename(String badgename) {
-    this.badgename = badgename;
-  }
-
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  public long getResultid() {
-    return resultid;
-  }
-
-  public void setResultid(long resultid) {
-    this.resultid = resultid;
-  }
 
 }

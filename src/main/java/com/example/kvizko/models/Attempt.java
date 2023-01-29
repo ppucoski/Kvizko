@@ -1,51 +1,30 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+
 
 @Entity
+@Table(name="attempt")
+@Data
 public class Attempt {
 
   @Id
   private long attemptid;
-  private long userid;
+
+  @ManyToOne
+  @JoinColumn(name="userid")
+  private Quiztaker quiztaker;
+  //private long userid;
+
   private java.sql.Date attemptdate;
-  private long quizid;
+
+  @ManyToOne
+  @JoinColumn(name = "quizid")
+  private Quiz quiz;
+  //private long quizid;
 
 
-  public long getAttemptid() {
-    return attemptid;
-  }
 
-  public void setAttemptid(long attemptid) {
-    this.attemptid = attemptid;
-  }
-
-
-  public long getUserid() {
-    return userid;
-  }
-
-  public void setUserid(long userid) {
-    this.userid = userid;
-  }
-
-
-  public java.sql.Date getAttemptdate() {
-    return attemptdate;
-  }
-
-  public void setAttemptdate(java.sql.Date attemptdate) {
-    this.attemptdate = attemptdate;
-  }
-
-
-  public long getQuizid() {
-    return quizid;
-  }
-
-  public void setQuizid(long quizid) {
-    this.quizid = quizid;
-  }
 
 }

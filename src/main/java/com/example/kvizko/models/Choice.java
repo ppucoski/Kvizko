@@ -1,51 +1,24 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "choice")
 public class Choice {
 
   @Id
   private long choiceid;
-  private long questionid;
-  private String iscorrect;
+
+  @ManyToOne
+  @JoinColumn(name="questionid")
+  private Selectionquestion selectionquestion;
+
+  //private long questionid;
+  private boolean iscorrect;
   private String choicetext;
 
 
-  public long getChoiceid() {
-    return choiceid;
-  }
-
-  public void setChoiceid(long choiceid) {
-    this.choiceid = choiceid;
-  }
-
-
-  public long getQuestionid() {
-    return questionid;
-  }
-
-  public void setQuestionid(long questionid) {
-    this.questionid = questionid;
-  }
-
-
-  public String getIscorrect() {
-    return iscorrect;
-  }
-
-  public void setIscorrect(String iscorrect) {
-    this.iscorrect = iscorrect;
-  }
-
-
-  public String getChoicetext() {
-    return choicetext;
-  }
-
-  public void setChoicetext(String choicetext) {
-    this.choicetext = choicetext;
-  }
 
 }

@@ -2,8 +2,13 @@ package com.example.kvizko.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Table(name="badge_is_awarded_to_quiztaker")
+@Data
 public class BadgeIsAwardedToQuiztaker {
 
   @Id
@@ -11,23 +16,5 @@ public class BadgeIsAwardedToQuiztaker {
 
   @Id
   private long userid;
-
-
-  public long getBadgeid() {
-    return badgeid;
-  }
-
-  public void setBadgeid(long badgeid) {
-    this.badgeid = badgeid;
-  }
-
-
-  public long getUserid() {
-    return userid;
-  }
-
-  public void setUserid(long userid) {
-    this.userid = userid;
-  }
 
 }

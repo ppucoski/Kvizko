@@ -2,8 +2,12 @@ package com.example.kvizko.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name = "subject")
 public class Subject {
 
   @Id
@@ -11,21 +15,5 @@ public class Subject {
   private String subjectname;
 
 
-  public long getSubjectid() {
-    return subjectid;
-  }
-
-  public void setSubjectid(long subjectid) {
-    this.subjectid = subjectid;
-  }
-
-
-  public String getSubjectname() {
-    return subjectname;
-  }
-
-  public void setSubjectname(String subjectname) {
-    this.subjectname = subjectname;
-  }
 
 }

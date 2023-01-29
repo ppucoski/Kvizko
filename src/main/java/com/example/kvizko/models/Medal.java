@@ -1,51 +1,23 @@
 package com.example.kvizko.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
+@Table(name="medal")
 public class Medal {
 
   @Id
   private long medalid;
-  private long tournamentid;
+
+  @ManyToOne
+  @JoinColumn(name="tournamentid")
+  private Tournament tournament;
+  //private long tournamentid;
   private String medalname;
   private String description;
 
 
-  public long getMedalid() {
-    return medalid;
-  }
-
-  public void setMedalid(long medalid) {
-    this.medalid = medalid;
-  }
-
-
-  public long getTournamentid() {
-    return tournamentid;
-  }
-
-  public void setTournamentid(long tournamentid) {
-    this.tournamentid = tournamentid;
-  }
-
-
-  public String getMedalname() {
-    return medalname;
-  }
-
-  public void setMedalname(String medalname) {
-    this.medalname = medalname;
-  }
-
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
 
 }
