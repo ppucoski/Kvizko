@@ -1,7 +1,12 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Attempt {
 
+  @Id
   private long attemptid;
   private long userid;
   private java.sql.Date attemptdate;

@@ -1,8 +1,12 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class Quiz {
 
+  @Id
   private long quizid;
   private long categoryid;
   private String quizname;
