@@ -1,9 +1,15 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class Selectedchoice {
 
+  @Id
   private long selectedchoiceid;
+
+  @Id
   private long choiceid;
   private long attemptid;
 

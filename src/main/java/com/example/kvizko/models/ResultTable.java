@@ -1,8 +1,12 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class ResultTable {
 
+  @Id
   private long resultid;
   private long attemptid;
   private long points;

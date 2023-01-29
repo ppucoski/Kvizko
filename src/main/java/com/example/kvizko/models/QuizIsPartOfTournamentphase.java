@@ -1,9 +1,15 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
+@Entity
 public class QuizIsPartOfTournamentphase {
 
+  @Id
   private long quizid;
+
+  @Id
   private long tournamentphaseid;
 
 
