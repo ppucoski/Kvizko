@@ -1,8 +1,15 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class BadgeIsAwardedToQuiztaker {
 
+  @Id
   private long badgeid;
+
+  @Id
   private long userid;
 
 

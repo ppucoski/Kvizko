@@ -1,7 +1,12 @@
 package com.example.kvizko.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Choice {
 
+  @Id
   private long choiceid;
   private long questionid;
   private String iscorrect;
