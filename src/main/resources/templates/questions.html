@@ -7,7 +7,11 @@
 </head>
 <body>
 
-<div th:each="question : ${questions}" th:text="${question.getQuestiontext()}"></div>
+<div th:each="question : ${questions}">
+    <div th:text="${question.getQuestiontext()}"></div>
+    <div th:each="choice : ${choices}" th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}"
+         th:text="${choice.getChoicetext()}"></div>
+</div>
 
 </body>
 </html>

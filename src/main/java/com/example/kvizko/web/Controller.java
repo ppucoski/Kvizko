@@ -1,12 +1,12 @@
 package com.example.kvizko.web;
 
-import com.example.kvizko.service.CategoryService;
-import com.example.kvizko.service.QuestionService;
-import com.example.kvizko.service.QuizService;
-import com.example.kvizko.service.SubjectService;
+import com.example.kvizko.models.Question;
+import com.example.kvizko.service.*;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -15,12 +15,14 @@ public class Controller {
     private final CategoryService categoryService;
     private final SubjectService subjectService;
     private final QuestionService questionService;
+    private final ChoiceService choiceService;
 
-    public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService) {
+    public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService, ChoiceService choiceService) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
         this.questionService = questionService;
+        this.choiceService = choiceService;
     }
 
 
@@ -48,8 +50,10 @@ public class Controller {
     @GetMapping("/{quizid}/questions")
     public String quizSolving(@PathVariable Long quizid, Model model)
     {
+        List<Question> questionsByQuiz =  questionService.questionsByQuiz(quizid);
         model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
-        model.addAttribute("questions", questionService.questionsByQuiz(quizid));
+        model.addAttribute("questions",questionsByQuiz);
+        model.addAttribute("choices", choiceService.choicesByQuestions(questionsByQuiz));
         return "questions";
     }
 
