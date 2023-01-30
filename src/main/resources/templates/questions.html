@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${quizName}"></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div th:each="question : ${questions}" th:text="${question.getQuestiontext()}"></div>
+
+</body>
+</html>

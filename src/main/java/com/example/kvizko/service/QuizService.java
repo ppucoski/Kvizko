@@ -8,5 +8,6 @@ import java.util.List;
 public interface QuizService {
 
     List<Quiz> listAll();
-
+    List<Quiz> quizzesByCategoryID(Long categoryid);
+    Quiz quizById(Long id);
 }

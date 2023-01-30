@@ -1,13 +1,13 @@
 package com.example.kvizko.repository;
 
-import com.example.kvizko.models.Quiz;
+import com.example.kvizko.models.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface QuizRepository extends JpaRepository<Quiz, Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    List<Quiz> findAllByCategoryCategoryid(Long categoryid);
+
 }

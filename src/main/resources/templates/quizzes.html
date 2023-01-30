@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Selection</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<div th:each="quiz :  ${quizzes}" >
+
+    <a th:href="@{'/{quizid}/questions' (quizid=${quiz.getQuizid()})}" th:text="${quiz.getQuizname()}">
+    </a>
+
+</div>
+
+</body>
+</html>
