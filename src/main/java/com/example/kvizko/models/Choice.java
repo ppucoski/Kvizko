@@ -19,5 +19,4 @@ public class Choice {
   private boolean iscorrect;
   private String choicetext;
 
-
 }

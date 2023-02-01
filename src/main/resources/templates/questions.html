@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title th:text="${quizName}"></title>
     <link rel="stylesheet" href="/styles.css">
+    <script src="/js/checkbox.js"></script>
 </head>
 <body>
 
@@ -16,10 +17,8 @@
         <input type="checkbox" th:each="choice : ${choices}"
                 th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}"
                 th:text="${choice.getChoicetext()}"
-                th:name="${'choiceIds'}"
-                th:value="${choice.getChoiceid()}"
-
-                /><br/>
+               name="choiceIds"
+                th:value="${choice.getChoiceid()}"/><br/>
 
     <input type="hidden" th:value="${questionCount}" name="questionCount">
 
