@@ -18,5 +18,4 @@ public class Quiz {
   private String quizname;
 
 
-
 }

@@ -7,11 +7,27 @@
 </head>
 <body>
 
+<form method="post" action="/quizResult" th:object="${selectedChoices}">
 <div th:each="question : ${questions}">
+
     <div th:text="${question.getQuestiontext()}"></div>
-    <div th:each="choice : ${choices}" th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}"
-         th:text="${choice.getChoicetext()}"></div>
+
+
+        <input type="checkbox" th:each="choice : ${choices}"
+                th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}"
+                th:text="${choice.getChoicetext()}"
+                th:name="${'choiceIds'}"
+                th:value="${choice.getChoiceid()}"
+
+                /><br/>
+
+    <input type="hidden" th:value="${questionCount}" name="questionCount">
+
 </div>
+    <input type="submit" id="submitButton" th:value="Save" >
+    <input type="reset" id="resetButton" name="reset" th:value="Clear"/>
+</form>
+
 
 </body>
 </html>

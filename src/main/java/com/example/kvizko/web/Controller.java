@@ -1,11 +1,13 @@
 package com.example.kvizko.web;
 
+import com.example.kvizko.models.Choice;
 import com.example.kvizko.models.Question;
+
 import com.example.kvizko.service.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Controller
@@ -53,8 +55,40 @@ public class Controller {
         List<Question> questionsByQuiz =  questionService.questionsByQuiz(quizid);
         model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
         model.addAttribute("questions",questionsByQuiz);
+        model.addAttribute("questionCount", questionsByQuiz.size());
         model.addAttribute("choices", choiceService.choicesByQuestions(questionsByQuiz));
+
+
         return "questions";
+    }
+
+    @PostMapping("/quizResult")
+    public String quizResult(Model model, @RequestParam Integer questionCount, @RequestParam Long... choiceIds)
+    {
+        List<Choice> listAllChoices=new ArrayList<>();
+
+        for(Long id : choiceIds)
+        {
+            listAllChoices.add(choiceService.getById(id));
+        }
+
+        double totalResult=0.0;
+        if(!listAllChoices.isEmpty())
+        {
+            for (Choice c : listAllChoices)
+            {
+                if(c.isIscorrect())
+                {
+                    totalResult+=100;
+                }
+
+            }
+            totalResult=totalResult/questionCount;
+
+        }
+        model.addAttribute("result", totalResult);
+        return "quizResult";
+
     }
 
 }

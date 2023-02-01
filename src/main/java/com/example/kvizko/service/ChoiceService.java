@@ -9,4 +9,5 @@ import java.util.List;
 public interface ChoiceService {
 
     List<Choice> choicesByQuestions(List<Question> questionList);
+    Choice getById(Long id);
 }
