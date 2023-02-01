@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <title th:text="${quizName}"></title>
     <link rel="stylesheet" href="/styles.css">
-    <script src="/js/checkbox.js"></script>
 </head>
 <body>
 
-<form method="post" action="/quizResult" th:object="${selectedChoices}">
-<div th:each="question : ${questions}">
+<form method="post" action="/quizSolving">
+
 
     <div th:text="${question.getQuestiontext()}"></div>
 
 
-        <input type="checkbox" th:each="choice : ${choices}"
-                th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}"
+        <input type="radio" name="selectedChoice"
+                th:each="choice : ${choices}"
                 th:text="${choice.getChoicetext()}"
-               name="choiceIds"
-                th:value="${choice.getChoiceid()}"/><br/>
+                th:value="${choice.getChoiceid()}"
+                /><br/>
 
-    <input type="hidden" th:value="${questionCount}" name="questionCount">
 
-</div>
-    <input type="submit" id="submitButton" th:value="Save" >
+
+
+    <input th:if="${lastQuestion==false}" type="submit" id="submitButton" th:value="Next" >
+    <input th:if="${lastQuestion==true}" type="submit" id="finishButton" th:value="Finish" >
     <input type="reset" id="resetButton" name="reset" th:value="Clear"/>
 </form>
 

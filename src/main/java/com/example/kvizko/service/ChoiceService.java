@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ChoiceService {
 
-    List<Choice> choicesByQuestions(List<Question> questionList);
+    List<Choice> choicesByQuestion(Question question);
     Choice getById(Long id);
 }

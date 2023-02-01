@@ -9,7 +9,7 @@
 
 <div th:each="quiz :  ${quizzes}" >
 
-    <a th:href="@{'/{quizid}/questions' (quizid=${quiz.getQuizid()})}" th:text="${quiz.getQuizname()}">
+    <a th:href="@{'/{quizid}/quizStart' (quizid=${quiz.getQuizid()})}" th:text="${quiz.getQuizname()}">
     </a>
 
 </div>

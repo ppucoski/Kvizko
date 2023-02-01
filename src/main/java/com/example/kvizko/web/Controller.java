@@ -4,11 +4,15 @@ import com.example.kvizko.models.Choice;
 import com.example.kvizko.models.Question;
 
 import com.example.kvizko.service.*;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -18,6 +22,8 @@ public class Controller {
     private final SubjectService subjectService;
     private final QuestionService questionService;
     private final ChoiceService choiceService;
+
+
 
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService, ChoiceService choiceService) {
         this.quizService = quizService;
@@ -49,45 +55,73 @@ public class Controller {
         return "quizzes";
     }
 
-    @GetMapping("/{quizid}/questions")
-    public String quizSolving(@PathVariable Long quizid, Model model)
+    @GetMapping("/{quizid}/quizStart")
+    public String quizStart(@PathVariable Long quizid, Model model, HttpSession session)
     {
-        List<Question> questionsByQuiz =  questionService.questionsByQuiz(quizid);
-        model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
-        model.addAttribute("questions",questionsByQuiz);
-        model.addAttribute("questionCount", questionsByQuiz.size());
-        model.addAttribute("choices", choiceService.choicesByQuestions(questionsByQuiz));
 
+        List<Question> questionsByQuiz =  questionService.questionsByQuiz(quizid);
+
+        Question firstQuestion=questionsByQuiz.remove(0);
+
+        session.setAttribute("quizName", quizService.quizById(quizid).getQuizname());//model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
+        session.setAttribute("questionsByQuiz", questionsByQuiz);//model.addAttribute("questionsByQuiz", questionsByQuiz);
+        session.setAttribute("questionCount", questionsByQuiz.size()); //model.addAttribute("questionCount", questionsByQuiz.size());
+        session.setAttribute("correctQuestionCounter", 0);//model.addAttribute("correctQuestionCounter", 0);
+
+
+        model.addAttribute("question",firstQuestion);
+        model.addAttribute("choices", choiceService.choicesByQuestion(firstQuestion));
+
+        model.addAttribute("lastQuestion", false);
 
         return "questions";
     }
 
-    @PostMapping("/quizResult")
-    public String quizResult(Model model, @RequestParam Integer questionCount, @RequestParam Long... choiceIds)
+
+    @PostMapping("/quizSolving")
+    public String quizSolving(Model model,
+                              @RequestParam Long selectedChoice,
+                              @SessionAttribute Integer questionCount,
+                              @SessionAttribute List<Question> questionsByQuiz,
+                              @SessionAttribute String quizName,
+                              @SessionAttribute Integer correctQuestionCounter,
+                              HttpSession session)
     {
-        List<Choice> listAllChoices=new ArrayList<>();
 
-        for(Long id : choiceIds)
+        if(questionsByQuiz.isEmpty())
         {
-            listAllChoices.add(choiceService.getById(id));
+            //TODO: presmetka
+            model.addAttribute("result", correctQuestionCounter*100/questionCount);
+            return "quizResult";
         }
-
-        double totalResult=0.0;
-        if(!listAllChoices.isEmpty())
+        else
         {
-            for (Choice c : listAllChoices)
+            if(questionsByQuiz.size()==1)
             {
-                if(c.isIscorrect())
-                {
-                    totalResult+=100;
-                }
-
+                model.addAttribute("lastQuestion", true);
             }
-            totalResult=totalResult/questionCount;
+            else
+            {
+                model.addAttribute("lastQuestion", false);
+            }
+            session.setAttribute("questionCount", questionCount); //model.addAttribute("questionCount", questionCount);
+            session.setAttribute("quizName", quizName);//model.addAttribute("quizName", quizName);
+
+            Question currentQuestion=questionsByQuiz.remove(0);
+            session.setAttribute("questionsByQuiz", questionsByQuiz);//model.addAttribute("questionsByQuiz", questionsByQuiz);
+
+            if(choiceService.getById(selectedChoice).isIscorrect())
+            {
+                correctQuestionCounter++;
+            }
+            session.setAttribute("correctQuestionCounter", correctQuestionCounter);//model.addAttribute("correctQuestionCounter", correctQuestionCounter);
+
+
+            model.addAttribute("question",currentQuestion);
+            model.addAttribute("choices", choiceService.choicesByQuestion(currentQuestion));
 
         }
-        model.addAttribute("result", totalResult);
-        return "quizResult";
+        return "questions";
 
     }
 

@@ -18,27 +18,13 @@ import java.util.stream.Stream;
 public class ChoiceServiceImpl implements ChoiceService {
 
     private final ChoiceRepository choiceRepository;
-    private final SelectionQuestionRepository selectionQuestionRepository;
-
-    public ChoiceServiceImpl(ChoiceRepository choiceRepository, SelectionQuestionRepository selectionQuestionRepository) {
+    public ChoiceServiceImpl(ChoiceRepository choiceRepository) {
         this.choiceRepository = choiceRepository;
-        this.selectionQuestionRepository = selectionQuestionRepository;
     }
 
     @Override
-    public List<Choice> choicesByQuestions(List<Question> questions) {
-        List<Long> questionsid = questions.stream().map(Question::getQuestionid).toList();
-        //List<Selectionquestion> selectionquestions = selectionQuestionRepository.findAllById(questionsid);
-        List<Choice> choices = new ArrayList<>();
-
-        for(Long id : questionsid)
-        {
-            choices = Stream.concat(choices.stream(), choiceRepository.findAllBySelectionquestion_Questionid(id).stream())
-                    .collect(Collectors.toList());;
-
-        }
-
-        return choices;
+    public List<Choice> choicesByQuestion(Question question) {
+        return choiceRepository.findAllBySelectionquestion_Questionid(question.getQuestionid());
     }
 
     @Override
