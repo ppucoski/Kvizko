@@ -45,14 +45,14 @@ public class Controller {
     public String selectCategory(@PathVariable Long subjectid, Model model)
     {
         model.addAttribute("categories", categoryService.findBySubject(subjectid));
-        return "categories";
+        return "Quizzes-and-categories";
     }
 
     @GetMapping("/{categoryid}/quizzes")
     public String selectQuiz(@PathVariable Long categoryid, Model model)
     {
         model.addAttribute("quizzes", quizService.quizzesByCategoryID(categoryid));
-        return "quizzes";
+        return "Quizzes-and-categories";
     }
 
     @GetMapping("/{quizid}/quizStart")
@@ -74,7 +74,7 @@ public class Controller {
 
         model.addAttribute("lastQuestion", false);
 
-        return "questions";
+        return "Question-and-choices";
     }
 
 
@@ -92,7 +92,7 @@ public class Controller {
         {
             //TODO: presmetka
             model.addAttribute("result", correctQuestionCounter*100/questionCount);
-            return "quizResult";
+            return "Result";
         }
         else
         {
@@ -121,7 +121,7 @@ public class Controller {
             model.addAttribute("choices", choiceService.choicesByQuestion(currentQuestion));
 
         }
-        return "questions";
+        return "Question-and-choices";
 
     }
 
