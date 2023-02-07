@@ -55,13 +55,13 @@
         <form method="post" action="/quizSolving">
               <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
                 <div class="u-bottom-left-radius-19 u-container-style u-group u-palette-1-base u-shape-round u-top-left-radius-19 u-group-1">
-                  <div style="font-size: 26px" class="u-container-layout u-container-layout-1" th:text="${question.getQuestiontext()}"></div>
+                  <div style="font-size: 2.0rem; font-family:Roboto,sans-serif" class="u-container-layout u-container-layout-1" th:text="${question.getQuestiontext()}"></div>
                 </div>
                 <div class="u-list u-list-1">
                   <div class="u-repeater u-repeater-1">
-                    <div style="height: 50px; align-items: center" th:each="choice : ${choices}"  class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1">
+                    <div style="height: 50px; align-items: center" th:each="choice : ${choices}"  class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1 da">
                         <input class="input-i-label" type="radio" th:id="${choice.getChoiceid()}" th:value="${choice.getChoiceid()}" name="selectedChoice" >
-                        <label style="margin: auto" class="input-i-label" th:for="${choice.getChoiceid()}" th:text="${choice.getChoicetext()}"></label>
+                        <label style="margin: auto; font-size: 1.5rem; font-family:Roboto,sans-serif" class="input-i-label" th:for="${choice.getChoiceid()}" th:text="${choice.getChoicetext()}"></label>
                     </div>
          <!--           <div class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-2">
                       <div class="u-container-layout u-similar-container u-container-layout-3"></div>
@@ -75,9 +75,9 @@
 
                       <div style="margin-top: 35px"></div>
 
-                      <input class="btn-epic" th:if="${lastQuestion==false}" type="submit" id="submitButton" th:value="Next" >
-                      <input th:if="${lastQuestion==true}" type="submit" id="finishButton" th:value="Finish" >
-                      <input class="btn-epic" type="reset" id="resetButton" name="reset" th:value="Clear"/>
+                      <input style="cursor: pointer;" class="btn-epic" th:if="${lastQuestion==false}" type="submit" id="submitButton" th:value="Next" >
+                      <input style="cursor: pointer;" th:if="${lastQuestion==true}" type="submit" id="finishButton" th:value="Finish" >
+                      <input style="cursor: pointer;" class="btn-epic" type="reset" id="resetButton" name="reset" th:value="Clear"/>
 
 
                   </div>

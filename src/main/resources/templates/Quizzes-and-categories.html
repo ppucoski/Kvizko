@@ -58,12 +58,12 @@
         </div>
         <div class="u-list u-list-1">
 
-            <div style="margin-bottom: 30px" class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1" th:if="${quizzes != null}" th:each="quiz : ${quizzes}">
-                <a style="color: #478ac9; margin: auto" th:href="@{'/{quizid}/quizStart' (quizid=${quiz.getQuizid()})}"><div class="u-container-layout u-similar-container u-container-layout-2" th:text="${quiz.getQuizname()}"></div></a>
+            <div style="margin-bottom: 30px" class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1 quiz" th:if="${quizzes != null}" th:each="quiz : ${quizzes}">
+                <a  style="color: #478ac9; margin: auto; font-size: 2.5rem; font-weight: 500; font-family:Roboto,sans-serif" th:href="@{'/{quizid}/quizStart' (quizid=${quiz.getQuizid()})}"><div class="u-container-layout u-similar-container u-container-layout-2 quiz_a" th:text="${quiz.getQuizname()}"></div></a>
             </div>
 
-            <div style="margin-bottom: 30px" class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1" th:if="${categories != null}" th:each="category : ${categories}">
-                <a style="color: #478ac9; margin: auto" th:href="@{'/{categoryid}/quizzes' (categoryid=${category.getCategoryid()})}"><div class="u-container-layout u-similar-container u-container-layout-2" th:text="${category.getCategoryname()}"></div></a>
+            <div style="margin-bottom: 30px" class="u-align-center u-container-style u-list-item u-radius-20 u-repeater-item u-shape-round u-video-cover u-white u-list-item-1 cat" th:if="${categories != null}" th:each="category : ${categories}">
+                <a  style="color: #478ac9; margin: auto; font-size: 2.5rem; font-weight: 500; font-family:Roboto,sans-serif" th:href="@{'/{categoryid}/quizzes' (categoryid=${category.getCategoryid()})}"><div class="u-container-layout u-similar-container u-container-layout-2 cat_a" th:text="${category.getCategoryname()}"></div></a>
             </div>
 
 <!--          <div class="u-repeater u-repeater-1">

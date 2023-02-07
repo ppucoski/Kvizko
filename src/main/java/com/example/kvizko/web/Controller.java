@@ -9,10 +9,7 @@ import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -55,6 +52,8 @@ public class Controller {
     public String quizStart(@PathVariable Long quizid, Model model, HttpSession session) {
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
+
+        Collections.shuffle(questionsByQuiz);
 
         Question firstQuestion = questionsByQuiz.remove(0);
 

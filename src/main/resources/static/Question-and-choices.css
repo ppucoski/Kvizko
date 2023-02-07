@@ -229,24 +229,45 @@
 }
  input.input-i-label {
    visibility:hidden;
+   width: 0;
  }
  label.input-i-label {
+   color: #478ac9;
    cursor: pointer;
  }
  input:checked.input-i-label + label.input-i-label {
-   color: #3E5C9A;
-   font-weight: bold;
+   background-color: #47C9C7;
+   color: white;
+   width: 100%;
+   height: 100%;
+   margin: auto;
+   align-items: center;
+   padding-top: 6px;
+   border-radius: 20px;
+ }
+
+ .da:hover, label.input-i-label:hover
+ {
+   background-color: #c8dcef;
+   color: #478ac9;
  }
 
  #submitButton, #finishButton, #resetButton
  {
-   background-color: #3E5C9A;
+   background-color: #00488b;
    height: 40px;
+   width: 200px;
+   border-radius: 15px;
+   margin: auto auto -10px;
+
  }
 
  #submitButton:hover, #finishButton:hover, #resetButton:hover
  {
-   background-color: black;
+   background-color: #5fb1fd;
    transition: background-color 500ms;
    height: 40px;
+   width: 200px;
+   border-radius: 15px;
+   margin: auto auto -10px;
  }

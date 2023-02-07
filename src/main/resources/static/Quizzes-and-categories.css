@@ -66,6 +66,20 @@
   padding: 30px;
 }
 
+.quiz:hover, div.quiz_a:hover
+{
+  background-color: #c8dcef;
+  color: #478ac9;
+  border-radius: 20px;
+}
+
+ .cat:hover, div.cat_a:hover
+ {
+   background-color: #c8dcef;
+   color: #478ac9;
+   border-radius: 20px;
+ }
+
 @media (max-width: 1199px) {
   .u-section-1 .u-sheet-1 {
     min-height: 1266px;
