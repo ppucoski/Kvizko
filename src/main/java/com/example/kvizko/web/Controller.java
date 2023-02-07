@@ -24,7 +24,6 @@ public class Controller {
     private final ChoiceService choiceService;
 
 
-
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService, ChoiceService choiceService) {
         this.quizService = quizService;
         this.categoryService = categoryService;
@@ -35,33 +34,29 @@ public class Controller {
 
 
     @GetMapping("/")
-    public String index(Model model)
-    {
+    public String index(Model model) {
         model.addAttribute("subjects", subjectService.listAll());
         return "index";
     }
 
     @GetMapping("/{subjectid}/categories")
-    public String selectCategory(@PathVariable Long subjectid, Model model)
-    {
+    public String selectCategory(@PathVariable Long subjectid, Model model) {
         model.addAttribute("categories", categoryService.findBySubject(subjectid));
         return "Quizzes-and-categories";
     }
 
     @GetMapping("/{categoryid}/quizzes")
-    public String selectQuiz(@PathVariable Long categoryid, Model model)
-    {
+    public String selectQuiz(@PathVariable Long categoryid, Model model) {
         model.addAttribute("quizzes", quizService.quizzesByCategoryID(categoryid));
         return "Quizzes-and-categories";
     }
 
     @GetMapping("/{quizid}/quizStart")
-    public String quizStart(@PathVariable Long quizid, Model model, HttpSession session)
-    {
+    public String quizStart(@PathVariable Long quizid, Model model, HttpSession session) {
 
-        List<Question> questionsByQuiz =  questionService.questionsByQuiz(quizid);
+        List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
 
-        Question firstQuestion=questionsByQuiz.remove(0);
+        Question firstQuestion = questionsByQuiz.remove(0);
 
         session.setAttribute("quizName", quizService.quizById(quizid).getQuizname());//model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
         session.setAttribute("questionsByQuiz", questionsByQuiz);//model.addAttribute("questionsByQuiz", questionsByQuiz);
@@ -69,7 +64,7 @@ public class Controller {
         session.setAttribute("correctQuestionCounter", 0);//model.addAttribute("correctQuestionCounter", 0);
 
 
-        model.addAttribute("question",firstQuestion);
+        model.addAttribute("question", firstQuestion);
         model.addAttribute("choices", choiceService.choicesByQuestion(firstQuestion));
 
         model.addAttribute("lastQuestion", false);
@@ -80,49 +75,64 @@ public class Controller {
 
     @PostMapping("/quizSolving")
     public String quizSolving(Model model,
-                              @RequestParam Long selectedChoice,
+                              @RequestParam(required = false) Long selectedChoice,
                               @SessionAttribute Integer questionCount,
                               @SessionAttribute List<Question> questionsByQuiz,
                               @SessionAttribute String quizName,
                               @SessionAttribute Integer correctQuestionCounter,
-                              HttpSession session)
-    {
+                              HttpSession session) {
 
-        if(questionsByQuiz.isEmpty())
-        {
+        if (questionsByQuiz.isEmpty()) {
             //TODO: presmetka
-            model.addAttribute("result", correctQuestionCounter*100/questionCount);
+            model.addAttribute("result", Math.round(correctQuestionCounter * 100.0 / questionCount));
             return "Result";
-        }
-        else
-        {
-            if(questionsByQuiz.size()==1)
-            {
+        } else {
+            if (questionsByQuiz.size() == 1) {
                 model.addAttribute("lastQuestion", true);
-            }
-            else
-            {
+            } else {
                 model.addAttribute("lastQuestion", false);
             }
             session.setAttribute("questionCount", questionCount); //model.addAttribute("questionCount", questionCount);
             session.setAttribute("quizName", quizName);//model.addAttribute("quizName", quizName);
 
-            Question currentQuestion=questionsByQuiz.remove(0);
+            Question currentQuestion = questionsByQuiz.remove(0);
             session.setAttribute("questionsByQuiz", questionsByQuiz);//model.addAttribute("questionsByQuiz", questionsByQuiz);
 
-            if(choiceService.getById(selectedChoice).isIscorrect())
-            {
+
+            if (selectedChoice!=null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
             }
             session.setAttribute("correctQuestionCounter", correctQuestionCounter);//model.addAttribute("correctQuestionCounter", correctQuestionCounter);
 
 
-            model.addAttribute("question",currentQuestion);
+            model.addAttribute("question", currentQuestion);
             model.addAttribute("choices", choiceService.choicesByQuestion(currentQuestion));
 
         }
         return "Question-and-choices";
 
+    }
+
+    @GetMapping("/getLogin")
+    public String getLogin() {
+        return "Login";
+    }
+
+    @GetMapping("/getRegister")
+    public String getRegister() {
+        return "Sign-up";
+    }
+
+    @PostMapping("/processLogin")
+    public String processLogin()
+    {
+        return "index"; //TODO: ova da sme smeni
+    }
+
+    @PostMapping("/processSignup")
+    public String processSignup()
+    {
+        return "index"; //TODO: ova da sme smeni
     }
 
 }

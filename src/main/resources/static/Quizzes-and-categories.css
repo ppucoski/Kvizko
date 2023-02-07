@@ -21,7 +21,7 @@
 .u-section-1 .u-list-1 {
   grid-template-rows: auto;
   width: 642px;
-  margin: 200px 233px 60px auto;
+  margin: 50px 233px 60px auto; /*prvana vrednost beshe 200px*/
 }
 
 .u-section-1 .u-repeater-1 {
@@ -153,7 +153,7 @@
   .u-section-1 .u-group-1 {
     min-height: 135px;
     width: 288px;
-    margin-top: 555px;
+    margin-top: 300px; /* ova beshe 555px */
   }
 
   .u-section-1 .u-list-1 {

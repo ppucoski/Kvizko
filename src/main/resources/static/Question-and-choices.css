@@ -10,7 +10,8 @@
   width: 772px;
   min-height: 156px;
   height: auto;
-  margin: 200px 168px 0 auto;
+  margin: 100px 168px 0 auto;
+  text-align: center;
 }
 
 .u-section-1 .u-container-layout-1 {
@@ -21,7 +22,7 @@
 .u-section-1 .u-list-1 {
   grid-template-rows: auto;
   width: 415px;
-  margin: 193px 347px 0 auto;
+  margin: 0 347px 0 auto; /*prvata vrednost beshe 193px*/
 }
 
 .u-section-1 .u-repeater-1 {
@@ -226,3 +227,26 @@
     margin-left: 106px;
   }
 }
+ input.input-i-label {
+   visibility:hidden;
+ }
+ label.input-i-label {
+   cursor: pointer;
+ }
+ input:checked.input-i-label + label.input-i-label {
+   color: #3E5C9A;
+   font-weight: bold;
+ }
+
+ #submitButton, #finishButton, #resetButton
+ {
+   background-color: #3E5C9A;
+   height: 40px;
+ }
+
+ #submitButton:hover, #finishButton:hover, #resetButton:hover
+ {
+   background-color: black;
+   transition: background-color 500ms;
+   height: 40px;
+ }

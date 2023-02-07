@@ -5,10 +5,10 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <title>Sign up</title>
-    <link rel="stylesheet" href="../../../../../UI/nicepage.css" media="screen">
-<link rel="stylesheet" href="../../../../../UI/Sign-up.css" media="screen">
-    <script class="u-script" type="text/javascript" src="../../../../../UI/jquery.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="../../../../../UI/nicepage.js" defer=""></script>
+    <link rel="stylesheet" href="temp.css" media="screen">
+<link rel="stylesheet" href="Sign-up.css" media="screen">
+    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="temp.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.4.4, nicepage.com">
     <meta name="referrer" content="origin">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -25,7 +25,7 @@
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
   <body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2d07"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <a href="Home.html" class="u-image u-logo u-image-1" data-image-width="463" data-image-height="339" title="Home">
+        <a href="/" class="u-image u-logo u-image-1" data-image-width="463" data-image-height="339" title="Home">
           <img src="images/logo.png" class="u-logo-image u-logo-image-1">
         </a>
         <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1">
@@ -37,14 +37,14 @@
             </a>
           </div>
           <div class="u-custom-menu u-nav-container">
-            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-text-palette-1-base" href="Login.html" style="padding: 10px 20px;">Login</a>
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-text-palette-1-base" href="/getLogin" style="padding: 10px 20px;">Login</a>
 </li></ul>
           </div>
           <div class="u-custom-menu u-nav-container-collapse">
             <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
               <div class="u-inner-container-layout u-sidenav-overflow">
                 <div class="u-menu-close"></div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="Login.html">Login</a>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/getLogin">Login</a>
 </li></ul>
               </div>
             </div>
@@ -55,7 +55,7 @@
     <section class="u-align-center u-clearfix u-container-align-center u-image u-section-1" id="sec-c3e6" data-image-width="1280" data-image-height="1280">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-align-center u-form u-radius-20 u-white u-form-1">
-          <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form" style="padding: 23px;">
+          <form method="post" action="/processSignup" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" source="email" name="form" style="padding: 23px;">
             <h4 class="u-align-center u-form-group u-form-text u-text u-text-1">Sign up</h4>
             <div class="u-form-email u-form-group">
               <label for="email-4c18" class="u-label">Email</label>
@@ -63,16 +63,15 @@
             </div>
             <div class="u-form-group u-form-name">
               <label for="name-4c18" class="u-label">Password</label>
-              <input type="text" placeholder="Enter your password" id="name-4c18" name="password" class="u-border-2 u-border-grey-10 u-grey-10 u-input u-input-rectangle u-radius-10" required="">
+              <input type="password" placeholder="Enter your password" id="name-4c18" name="password" class="u-border-2 u-border-grey-10 u-grey-10 u-input u-input-rectangle u-radius-10" required="">
             </div>
             <div class="u-align-center u-form-group u-form-submit">
               <a href="#" class="u-active-palette-3-base u-border-3 u-border-active-palette-3-base u-border-hover-palette-3-base u-border-palette-2-base u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-3-base u-palette-2-base u-radius-50 u-btn-1">Sign up</a>
               <input type="submit" value="submit" class="u-form-control-hidden">
             </div>
-            <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
-            <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
-            <input type="hidden" value="" name="recaptchaResponse">
-            <input type="hidden" name="formServices" value="14dc455e684d81d7b943a25db939938b">
+
+<!--            <input type="hidden" value="" name="recaptchaResponse">
+            <input type="hidden" name="formServices" value="14dc455e684d81d7b943a25db939938b">-->
           </form>
         </div>
       </div>
