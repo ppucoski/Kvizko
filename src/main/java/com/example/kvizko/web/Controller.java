@@ -83,7 +83,7 @@ public class Controller {
 
         if (questionsByQuiz.isEmpty()) {
             //TODO: presmetka
-            model.addAttribute("result", Math.round(correctQuestionCounter * 100.0 / questionCount));
+            model.addAttribute("result", correctQuestionCounter * 100 / questionCount);
             return "Result";
         } else {
             if (questionsByQuiz.size() == 1) {
