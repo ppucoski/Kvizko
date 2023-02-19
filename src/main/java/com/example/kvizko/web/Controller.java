@@ -1,11 +1,11 @@
 package com.example.kvizko.web;
 
-import com.example.kvizko.models.Choice;
 import com.example.kvizko.models.Question;
 
+import com.example.kvizko.models.User;
 import com.example.kvizko.service.*;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,14 +19,18 @@ public class Controller {
     private final SubjectService subjectService;
     private final QuestionService questionService;
     private final ChoiceService choiceService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService, ChoiceService choiceService) {
+    public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService, QuestionService questionService, ChoiceService choiceService, UserService userService, PasswordEncoder passwordEncoder) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
         this.questionService = questionService;
         this.choiceService = choiceService;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -123,14 +127,23 @@ public class Controller {
     }
 
     @PostMapping("/processLogin")
-    public String processLogin()
+    public String processLogin(@RequestParam String username,
+                               @RequestParam String password)
     {
-        return "index"; //TODO: ova da sme smeni
+        User user = this.userService.findByUsernameAndPassword(username, password);
+        if(user != null && passwordEncoder.matches(password, user.getPasswordAttr()))
+        {
+            return "index";
+        }
+        return "Login"; //TODO: ova da sme smeni
     }
 
     @PostMapping("/processSignup")
-    public String processSignup()
-    {
+    public String processSignup(@RequestParam String username,
+                                @RequestParam(required = false) String full_name,
+                                @RequestParam String password) throws Exception {
+
+        this.userService.save(username, full_name, password);
         return "index"; //TODO: ova da sme smeni
     }
 
