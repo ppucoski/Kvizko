@@ -1,5 +1,6 @@
 package com.example.kvizko.web;
 
+import com.example.kvizko.exceptions.UsernameAlreadyTakenException;
 import com.example.kvizko.models.Choice;
 import com.example.kvizko.models.Question;
 
@@ -139,18 +140,18 @@ public class Controller {
         User user = this.userService.findByUsernameAndPassword(username, password);
         if(user != null)
         {
-            return "index";
+            return "redirect:/";
         }
-        return "Login";
+        return "redirect:/getLogin";
     }
 
     @PostMapping("/processSignup")
     public String processSignup(@RequestParam String username,
                                 @RequestParam(required = false) String full_name,
-                                @RequestParam String password) throws Exception {
+                                @RequestParam String password) throws UsernameAlreadyTakenException {
 
         this.userService.save(username, full_name, password);
-        return "index";
+        return "redirect:/";
     }
 
 }
