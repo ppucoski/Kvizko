@@ -13,6 +13,10 @@ public class Quiztaker {
   @Id
   private long userid;
 
+  public Quiztaker() {
+  }
 
-
+  public Quiztaker(long userid) {
+    this.userid = userid;
+  }
 }

@@ -36,25 +36,31 @@ public class Controller {
 
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
         model.addAttribute("subjects", subjectService.listAll());
+        model.addAttribute("user", session.getAttribute("user"));
+
         return "index";
     }
 
     @GetMapping("/{subjectid}/categories")
-    public String selectCategory(@PathVariable Long subjectid, Model model) {
+    public String selectCategory(@PathVariable Long subjectid, Model model, HttpSession session) {
         model.addAttribute("categories", categoryService.findBySubject(subjectid));
+        model.addAttribute("user", session.getAttribute("user"));
         return "Quizzes-and-categories";
     }
 
     @GetMapping("/{categoryid}/quizzes")
-    public String selectQuiz(@PathVariable Long categoryid, Model model) {
+    public String selectQuiz(@PathVariable Long categoryid, Model model, HttpSession session) {
         model.addAttribute("quizzes", quizService.quizzesByCategoryID(categoryid));
+        model.addAttribute("user", session.getAttribute("user"));
         return "Quizzes-and-categories";
     }
 
     @GetMapping("/{quizid}/quizStart")
     public String quizStart(@PathVariable Long quizid, Model model, HttpSession session) {
+
+        model.addAttribute("user", session.getAttribute("user"));
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
         Collections.shuffle(questionsByQuiz);
@@ -86,7 +92,10 @@ public class Controller {
                               @SessionAttribute List<Question> questionsByQuiz,
                               @SessionAttribute String quizName,
                               @SessionAttribute Integer correctQuestionCounter,
-                              HttpSession session) {
+                              HttpSession session)
+    {
+
+        model.addAttribute("user", session.getAttribute("user"));
 
         if (questionsByQuiz.isEmpty()) {
 
@@ -124,25 +133,30 @@ public class Controller {
     }
 
     @GetMapping("/getLogin")
-    public String getLogin() {
+    public String getLogin(HttpSession session, Model model) {
+        model.addAttribute("user", session.getAttribute("user"));
         return "Login";
     }
 
     @GetMapping("/getRegister")
-    public String getRegister() {
+    public String getRegister(HttpSession session, Model model) {
+        model.addAttribute("user", session.getAttribute("user"));
         return "Sign-up";
     }
 
     @PostMapping("/processLogin")
     public String processLogin(@RequestParam String username,
-                               @RequestParam String password)
+                               @RequestParam String password,
+                               HttpSession session)
     {
         User user = this.userService.findByUsernameAndPassword(username, password);
-        if(user != null)
+        if(user == null)
         {
-            return "redirect:/";
+            return "redirect:/getLogin";
+
         }
-        return "redirect:/getLogin";
+        session.setAttribute("user", user);
+        return "redirect:/";
     }
 
     @PostMapping("/processSignup")
@@ -150,7 +164,14 @@ public class Controller {
                                 @RequestParam(required = false) String full_name,
                                 @RequestParam String password) throws UsernameAlreadyTakenException {
 
-        this.userService.save(username, full_name, password);
+        this.userService.registerUser(username, full_name, password);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logOut")
+    public String logOut(HttpSession session) {
+
+        session.invalidate();
         return "redirect:/";
     }
 

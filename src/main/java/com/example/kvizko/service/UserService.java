@@ -7,5 +7,5 @@ public interface UserService {
 
     public User findByUsernameAndPassword(String username, String password);
 
-    public void save(String username, String full_name, String password) throws UsernameAlreadyTakenException;
+    public void registerUser(String username, String full_name, String password) throws UsernameAlreadyTakenException;
 }
