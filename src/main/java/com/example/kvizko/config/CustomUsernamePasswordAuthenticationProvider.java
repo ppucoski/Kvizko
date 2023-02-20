@@ -1,3 +1,4 @@
+/*
 package com.example.kvizko.config;
 
 import com.example.kvizko.service.UserService;
@@ -35,3 +36,4 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         return false;
     }
 }
+*/

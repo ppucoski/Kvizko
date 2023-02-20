@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -62,7 +63,7 @@ public class Controller {
         Question firstQuestion = questionsByQuiz.remove(0);
 
         session.setAttribute("quizName", quizService.quizById(quizid).getQuizname());//model.addAttribute("quizName", quizService.quizById(quizid).getQuizname());
-        session.setAttribute("questionsByQuiz", questionsByQuiz);//model.addAttribute("questionsByQuiz", questionsByQuiz);
+        session.setAttribute("questionsByQuiz", questionsByQuiz.stream().limit(4).collect(Collectors.toList()));//model.addAttribute("questionsByQuiz", questionsByQuiz);
         session.setAttribute("questionCount", questionsByQuiz.size()); //model.addAttribute("questionCount", questionsByQuiz.size());
         session.setAttribute("correctQuestionCounter", 0);//model.addAttribute("correctQuestionCounter", 0);
 
