@@ -153,9 +153,14 @@ public class Controller {
         if(user == null)
         {
             return "redirect:/getLogin";
-
         }
         session.setAttribute("user", user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/returnIndex")
+    public String returnIndex()
+    {
         return "redirect:/";
     }
 
