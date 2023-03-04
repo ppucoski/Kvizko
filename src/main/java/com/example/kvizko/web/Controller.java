@@ -3,9 +3,8 @@ package com.example.kvizko.web;
 import com.example.kvizko.exceptions.UsernameAlreadyTakenException;
 import com.example.kvizko.models.*;
 
-import com.example.kvizko.models.views.Avgpoenizakviz;
-import com.example.kvizko.repository.AvgpoenizakvizRepository;
-import com.example.kvizko.repository.BrturniribrigrachibrkvizovibrmedaliRepository;
+import com.example.kvizko.models.views.*;
+import com.example.kvizko.repository.*;
 import com.example.kvizko.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,12 +32,29 @@ public class Controller {
 
     private final AvgpoenizakvizRepository avgpoenizakvizRepository;
     private final BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository;
+    private final IzveshtajzaturnirRepository izveshtajzaturnirRepository;
+    private final KorisnicirangiranisporedmedaliRepository korisnicirangiranisporedmedaliRepository;
+    private final KvizovirangiranisporedtochniprashanjaRepository kvizovirangiranisporedtochniprashanjaRepository;
+    private final NajangazhiranikorisniciRepository najangazhiranikorisniciRepository;
+    private final NajigranikvizoviRepository najigranikvizoviRepository;
+    private final PrashanjarangiranisporedtochniodgovoriRepository prashanjarangiranisporedtochniodgovoriRepository;
+    private final Top5ReshavachiRepository top5ReshavachiRepository;
+    private final Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository;
 
 
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService,
                       QuestionService questionService, ChoiceService choiceService, UserService userService,
-                      AttemptService attemptService, ResultService resultService, QuizTakerService quizTakerService, AvgpoenizakvizRepository avgpoenizakvizRepository,
-                      BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository) {
+                      AttemptService attemptService, ResultService resultService, QuizTakerService quizTakerService,
+                      AvgpoenizakvizRepository avgpoenizakvizRepository,
+                      BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository,
+                      IzveshtajzaturnirRepository izveshtajzaturnirRepository,
+                      KorisnicirangiranisporedmedaliRepository korisnicirangiranisporedmedaliRepository,
+                      KvizovirangiranisporedtochniprashanjaRepository kvizovirangiranisporedtochniprashanjaRepository,
+                      NajangazhiranikorisniciRepository najangazhiranikorisniciRepository,
+                      NajigranikvizoviRepository najigranikvizoviRepository,
+                      PrashanjarangiranisporedtochniodgovoriRepository prashanjarangiranisporedtochniodgovoriRepository,
+                      Top5ReshavachiRepository top5ReshavachiRepository,
+                      Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
@@ -51,6 +66,14 @@ public class Controller {
         this.quizTakerService = quizTakerService;
         this.avgpoenizakvizRepository = avgpoenizakvizRepository;
         this.brturniribrigrachibrkvizovibrmedaliRepository = brturniribrigrachibrkvizovibrmedaliRepository;
+        this.izveshtajzaturnirRepository = izveshtajzaturnirRepository;
+        this.korisnicirangiranisporedmedaliRepository = korisnicirangiranisporedmedaliRepository;
+        this.kvizovirangiranisporedtochniprashanjaRepository = kvizovirangiranisporedtochniprashanjaRepository;
+        this.najangazhiranikorisniciRepository = najangazhiranikorisniciRepository;
+        this.najigranikvizoviRepository = najigranikvizoviRepository;
+        this.prashanjarangiranisporedtochniodgovoriRepository = prashanjarangiranisporedtochniodgovoriRepository;
+        this.top5ReshavachiRepository = top5ReshavachiRepository;
+        this.vkbrojreshenikvizovivo3MeseciRepositoryRepository = vkbrojreshenikvizovivo3MeseciRepositoryRepository;
     }
 
 
@@ -218,7 +241,6 @@ public class Controller {
     @GetMapping("/reports")
     public String reportList(Model model)
     {
-
         return "reportList";
     }
 
@@ -250,5 +272,61 @@ public class Controller {
     {
         model.addAttribute("items", brturniribrigrachibrkvizovibrmedaliRepository.findAll());
         return "Brturniribrigrachibrkvizovibrmedali";
+    }
+
+    @GetMapping("/tournamentsReport")
+    public String tournamentsReport(Model model)
+    {
+        model.addAttribute("items", izveshtajzaturnirRepository.findAll());
+        return "Izveshtajzaturniri";
+    }
+
+    @GetMapping("/medalRankings")
+    public String medalRankings(Model model)
+    {
+        model.addAttribute("items", korisnicirangiranisporedmedaliRepository.findAll());
+        return "medalRankings";
+    }
+
+    @GetMapping("/correctQuestionQuizRankings")
+    public String correctQuestionQuizRankings(Model model)
+    {
+        model.addAttribute("items", kvizovirangiranisporedtochniprashanjaRepository.findAll());
+        return "correctQuestionQuizRankings";
+    }
+
+    @GetMapping("/hardestWorkers")
+    public String hardestWorkers(Model model)
+    {
+        model.addAttribute("items", najangazhiranikorisniciRepository.findAll());
+        return "hardestWorkers";
+    }
+
+    @GetMapping("/topQuizzes")
+    public String topQuizzes(Model model)
+    {
+        model.addAttribute("items", najigranikvizoviRepository.findAll());
+        return "topQuizzes";
+    }
+
+    @GetMapping("/questionsRankedByQuiz")
+    public String questionsRankedByQuiz(Model model)
+    {
+        model.addAttribute("items", prashanjarangiranisporedtochniodgovoriRepository.findAll());
+        return "questionsRankedByQuiz";
+    }
+
+    @GetMapping("/top5Solvers")
+    public String top5Solvers(Model model)
+    {
+        model.addAttribute("items", top5ReshavachiRepository.findAll());
+        return "top5Solvers";
+    }
+
+    @GetMapping("/totalQuizzes3Months")
+    public String totalQuizzes3Months(Model model)
+    {
+        model.addAttribute("items", vkbrojreshenikvizovivo3MeseciRepositoryRepository.findAll());
+        return "totalQuizzes3Months";
     }
 }
