@@ -27,9 +27,16 @@
 
             </li>
 
+
             <li class="u-nav-item" th:if="${user!=null}">
 
               <div class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-text-palette-1-base" style="padding: 10px 20px;" th:text="${user.getUsername}"></div>
+
+            </li>
+
+            <li class="u-nav-item"> <!--th:if="${user!=null}"-->
+
+              <a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-text-palette-1-base" href="/reports" style="padding: 10px 20px;">Reports</a>
 
             </li>
 
@@ -59,6 +66,20 @@
           <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
         </div>
       </nav>
+    </div>
+  </div>
+
+  <div th:fragment="footer">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <p class="u-small-text u-text u-text-variant u-text-1">
+        <a class="u-active-none u-border-none u-btn u-button-link u-button-style u-hover-none u-none u-text-palette-1-base u-btn-1" href="https://develop.finki.ukim.mk/projects/kvizko">Kvizko<span style="font-size: 1.125rem;">
+              <span style="font-size: 1.25rem;"></span>
+            </span>
+        </a>
+      </p>
+      <p class="u-small-text u-text u-text-variant u-text-2">© All rights reserved
+        <br>
+      </p>
     </div>
   </div>
 

@@ -5,10 +5,12 @@ import com.example.kvizko.models.Choice;
 import com.example.kvizko.models.Question;
 
 import com.example.kvizko.models.User;
+import com.example.kvizko.repository.AvgpoenizakvizRepository;
 import com.example.kvizko.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,15 +25,19 @@ public class Controller {
     private final ChoiceService choiceService;
     private final UserService userService;
 
+    private final AvgpoenizakvizRepository avgpoenizakvizRepository;
+
 
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService,
-                      QuestionService questionService, ChoiceService choiceService, UserService userService) {
+                      QuestionService questionService, ChoiceService choiceService, UserService userService,
+                      AvgpoenizakvizRepository avgpoenizakvizRepository) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
         this.questionService = questionService;
         this.choiceService = choiceService;
         this.userService = userService;
+        this.avgpoenizakvizRepository = avgpoenizakvizRepository;
     }
 
 
@@ -69,7 +75,7 @@ public class Controller {
 
         session.setAttribute("quizName", quizService.quizById(quizid).getQuizname());
         session.setAttribute("questionsByQuiz", questionsByQuiz.stream().limit(4)
-                                                                    .collect(Collectors.toList()));
+                .collect(Collectors.toList()));
         session.setAttribute("questionCount", 5);
         session.setAttribute("correctQuestionCounter", 0);
         model.addAttribute("question", firstQuestion);
@@ -92,14 +98,13 @@ public class Controller {
                               @SessionAttribute List<Question> questionsByQuiz,
                               @SessionAttribute String quizName,
                               @SessionAttribute Integer correctQuestionCounter,
-                              HttpSession session)
-    {
+                              HttpSession session) {
 
         model.addAttribute("user", session.getAttribute("user"));
 
         if (questionsByQuiz.isEmpty()) {
 
-            if (selectedChoice!=null && choiceService.getById(selectedChoice).isIscorrect()) {
+            if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
             }
 
@@ -118,7 +123,7 @@ public class Controller {
             session.setAttribute("questionsByQuiz", questionsByQuiz);
 
 
-            if (selectedChoice!=null && choiceService.getById(selectedChoice).isIscorrect()) {
+            if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
             }
             session.setAttribute("correctQuestionCounter", correctQuestionCounter);
@@ -147,11 +152,9 @@ public class Controller {
     @PostMapping("/processLogin")
     public String processLogin(@RequestParam String username,
                                @RequestParam String password,
-                               HttpSession session)
-    {
+                               HttpSession session) {
         User user = this.userService.findByUsernameAndPassword(username, password);
-        if(user == null)
-        {
+        if (user == null) {
             return "redirect:/getLogin";
         }
         session.setAttribute("user", user);
@@ -159,8 +162,7 @@ public class Controller {
     }
 
     @GetMapping("/returnIndex")
-    public String returnIndex()
-    {
+    public String returnIndex() {
         return "redirect:/";
     }
 
@@ -178,6 +180,14 @@ public class Controller {
 
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/reports")
+    public String reportList(Model model)
+    {
+
+        model.addAttribute("items", avgpoenizakvizRepository.findAll());
+        return "AvgPoeniZaKviz";
     }
 
 }

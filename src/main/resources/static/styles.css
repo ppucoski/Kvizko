@@ -1,0 +1,20 @@
+.reportTabeli
+{
+    border: white solid 5px;
+    border-collapse: collapse;
+}
+
+.reportTabeli  tr
+{
+    border: white solid 5px;
+}
+
+.reportTabeli  th
+{
+    border: white solid 5px;
+}
+
+.reportTabeli  td
+{
+    border: white solid 5px;
+}
