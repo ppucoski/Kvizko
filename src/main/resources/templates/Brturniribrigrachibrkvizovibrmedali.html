@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Average Points Report</title>
+    <title>Numbers Report</title>
     <link rel="stylesheet" href="temp.css" media="screen">
     <link rel="stylesheet" href="Result.css" media="screen">
     <link rel="stylesheet" href="styles.css" media="screen">
@@ -35,30 +35,31 @@
 </header>
 <section class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-clearfix u-palette-1-base u-section-1" id="sec-88e1">
     <div class="u-clearfix u-sheet u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
-            <div class="u-container-layout u-valign-middle u-container-layout-1">
-                <div class="u-align-center u-text u-text-default u-text-1">
+        <div class="u-container-layout u-valign-middle u-container-layout-1">
+            <div class="u-align-center u-text u-text-default u-text-1">
 
-                    <h1 style="margin-top: 100px; margin-bottom: 50px" class="u-container-layout u-valign-middle u-container-layout-1">Average points per quiz</h1>
+                <h1 style="margin-top: 100px; margin-bottom: 50px" class="u-container-layout u-valign-middle u-container-layout-1">Number of tournaments and number of players, quizzes and medals for that tournament</h1>
 
-                    <table class="table table-bordered mt-3 reportTabeli">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">User ID</th>
-                            <th scope="col">Quiz Name</th>
-                            <th scope="col">Average number of points</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="item : ${items}">
-                            <td th:text="${item.getUserid()}"></td>
-                            <td th:text="${item.getQuizname()}"></td>
-                            <td th:text="${item.getAvg()}"></td>
+                <table class="table table-bordered mt-3 reportTabeli">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Tournament Name</th>
+                        <th scope="col">Total Players</th>
+                        <th scope="col">Total Quizzes</th>
+                        <th scope="col">Total Medals</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.getTName()}"></td>
+                        <td th:text="${item.getTotalPlayers()}"></td>
+                        <td th:text="${item.getTotalQuizzes()}"></td>
+                        <td th:text="${item.getTotalMedals()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
 
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -9,6 +9,7 @@ import lombok.Data;
 public class ResultTable {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long resultid;
 
   @OneToOne
@@ -17,6 +18,9 @@ public class ResultTable {
   //private long attemptid;
   private long points;
 
-
-
+  public ResultTable() {}
+  public ResultTable(Attempt attempt, long points) {
+    this.attempt = attempt;
+    this.points = points;
+  }
 }

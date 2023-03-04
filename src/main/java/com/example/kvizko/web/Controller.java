@@ -1,17 +1,21 @@
 package com.example.kvizko.web;
 
 import com.example.kvizko.exceptions.UsernameAlreadyTakenException;
-import com.example.kvizko.models.Choice;
-import com.example.kvizko.models.Question;
+import com.example.kvizko.models.*;
 
-import com.example.kvizko.models.User;
+import com.example.kvizko.models.views.Avgpoenizakviz;
 import com.example.kvizko.repository.AvgpoenizakvizRepository;
+import com.example.kvizko.repository.BrturniribrigrachibrkvizovibrmedaliRepository;
 import com.example.kvizko.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,20 +28,29 @@ public class Controller {
     private final QuestionService questionService;
     private final ChoiceService choiceService;
     private final UserService userService;
+    private final AttemptService attemptService;
+    private final ResultService resultService;
+    private final QuizTakerService quizTakerService;
 
     private final AvgpoenizakvizRepository avgpoenizakvizRepository;
+    private final BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository;
 
 
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService,
                       QuestionService questionService, ChoiceService choiceService, UserService userService,
-                      AvgpoenizakvizRepository avgpoenizakvizRepository) {
+                      AttemptService attemptService, ResultService resultService, QuizTakerService quizTakerService, AvgpoenizakvizRepository avgpoenizakvizRepository,
+                      BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
         this.questionService = questionService;
         this.choiceService = choiceService;
         this.userService = userService;
+        this.attemptService = attemptService;
+        this.resultService = resultService;
+        this.quizTakerService = quizTakerService;
         this.avgpoenizakvizRepository = avgpoenizakvizRepository;
+        this.brturniribrigrachibrkvizovibrmedaliRepository = brturniribrigrachibrkvizovibrmedaliRepository;
     }
 
 
@@ -66,6 +79,20 @@ public class Controller {
     @GetMapping("/{quizid}/quizStart")
     public String quizStart(@PathVariable Long quizid, Model model, HttpSession session) {
 
+        Attempt attempt=null;
+        if(session.getAttribute("user")!=null)
+        {
+            User user=(User) session.getAttribute("user");
+            Quiztaker quiztaker=quizTakerService.findById(user.getUserid());
+            if(quiztaker!=null)
+            {
+                attempt=attemptService.save(quiztaker, java.sql.Date.valueOf(LocalDate.now()), quizService.quizById(quizid));
+            }
+
+
+        }
+
+        session.setAttribute("attempt", attempt);
         model.addAttribute("user", session.getAttribute("user"));
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
@@ -106,6 +133,12 @@ public class Controller {
 
             if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
+            }
+
+            Attempt attempt=(Attempt) session.getAttribute("attempt");
+            if(attempt!=null)
+            {
+                resultService.save(attempt, correctQuestionCounter * 100 / questionCount);
             }
 
             model.addAttribute("result", correctQuestionCounter * 100 / questionCount);
@@ -186,8 +219,36 @@ public class Controller {
     public String reportList(Model model)
     {
 
-        model.addAttribute("items", avgpoenizakvizRepository.findAll());
-        return "AvgPoeniZaKviz";
+        return "reportList";
     }
 
+    @GetMapping("/avgPoints")
+    public String avgPoints(Model model, HttpSession session)
+    {
+        /*User user=(User) session.getAttribute("user");
+        if(user==null)
+        {
+            return "redirect:/index";
+        }*/
+
+        List<Avgpoenizakviz> list=avgpoenizakvizRepository.findAll();
+        list.forEach(
+                x -> {
+                    DecimalFormat df = new DecimalFormat("###.##");
+                    BigDecimal bigDecimal=x.getAvg();
+                    x.setAvg(new BigDecimal(df.format(bigDecimal)));
+                }
+
+        );
+        model.addAttribute("items", list);
+        return "AvgPoeniZaKviz";
+
+    }
+
+    @GetMapping("/numbersReport")
+    public String numbersReport(Model model)
+    {
+        model.addAttribute("items", brturniribrigrachibrkvizovibrmedaliRepository.findAll());
+        return "Brturniribrigrachibrkvizovibrmedali";
+    }
 }
