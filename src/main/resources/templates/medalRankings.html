@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Average Points Report</title>
+    <title>Medal Rankings Report</title>
     <link rel="stylesheet" href="temp.css" media="screen">
     <link rel="stylesheet" href="Result.css" media="screen">
     <link rel="stylesheet" href="styles.css" media="screen">
@@ -38,29 +38,25 @@
         <div class="u-container-layout u-valign-middle u-container-layout-1">
             <div class="u-align-center u-text u-text-default u-text-1">
 
-                <table class="table table-bordered mt-3 reportTabeli" style="margin-top: 100px">
+                <h1 style="margin-top: 100px; margin-bottom: 50px" class="u-container-layout u-valign-middle u-container-layout-1">
+                    Users Ranked by Number of Medals</h1>
 
-                    <tr><td><a href="/avgPoints">Average points per quiz</a></td></tr>
+                <table class="table table-bordered mt-3 reportTabeli">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Number of Medals</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.getUsername()}"></td>
+                        <td th:text="${item.getMedalCount()}"></td>
 
-                    <tr><td><a href="/numbersReport">Number of tournaments and number of players, quizzes and medals for that tournament</a></td></tr>
-
-                    <tr><td><a href="/tournamentsReport">Tournament Report</a></td></tr>
-
-                    <tr><td><a href="/medalRankings">Users Ranked by Number of Medals</a></td></tr>
-
-                    <tr><td><a href="/correctQuestionQuizRankings">Quizzes Ranked by Number of Correct Questions</a></td></tr>
-
-                    <tr><td><a href="/hardestWorkers">Users Ranked by Quiz Attempts</a></td></tr>
-
-                    <tr><td><a href="/topQuizzes">Most Played Quizzes</a></td></tr>
-
-                    <tr><td><a href="/questionsRankedByCorrectAnswer">Questions Ranked by Most Correct Answers</a></td></tr>
-
-                    <tr><td><a href="/top5Solvers">Top 5 Solvers</a></td></tr>
-
-                    <tr><td><a href="/totalQuizzes3Months">Number of Quizzes Solved in the Last 3 Months</a></td></tr>
-
+                    </tr>
+                    </tbody>
                 </table>
+
             </div>
         </div>
     </div>

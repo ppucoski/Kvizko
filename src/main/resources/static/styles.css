@@ -2,6 +2,8 @@
 {
     border: white solid 5px;
     border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .reportTabeli  tr

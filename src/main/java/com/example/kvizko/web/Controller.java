@@ -309,11 +309,11 @@ public class Controller {
         return "topQuizzes";
     }
 
-    @GetMapping("/questionsRankedByQuiz")
+    @GetMapping("/questionsRankedByCorrectAnswer")
     public String questionsRankedByQuiz(Model model)
     {
         model.addAttribute("items", prashanjarangiranisporedtochniodgovoriRepository.findAll());
-        return "questionsRankedByQuiz";
+        return "questionsRankedByCorrectAnswer";
     }
 
     @GetMapping("/top5Solvers")

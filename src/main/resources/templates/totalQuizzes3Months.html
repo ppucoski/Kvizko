@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en"><head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <title>Total Quizzes 3 Months Report</title>
+  <link rel="stylesheet" href="temp.css" media="screen">
+  <link rel="stylesheet" href="Result.css" media="screen">
+  <link rel="stylesheet" href="styles.css" media="screen">
+  <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
+  <script class="u-script" type="text/javascript" src="temp.js" defer=""></script>
+  <meta name="generator" content="Nicepage 5.4.4, nicepage.com">
+  <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+
+
+  <script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "",
+    "logo": "images/logo.png"
+  }</script>
+  <meta name="theme-color" content="#478ac9">
+  <meta property="og:title" content="Result">
+  <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+<body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2d07">
+
+
+
+  <div th:insert="~{_layout :: header}"></div>
+
+
+
+</header>
+<section class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-clearfix u-palette-1-base u-section-1" id="sec-88e1">
+  <div class="u-clearfix u-sheet u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+    <div class="u-container-layout u-valign-middle u-container-layout-1">
+      <div class="u-align-center u-text u-text-default u-text-1">
+
+        <h1 style="margin-top: 100px; margin-bottom: 50px" class="u-container-layout u-valign-middle u-container-layout-1">
+          Number of Quizzes Solved in the Last 3 Months</h1>
+
+        <table class="table table-bordered mt-3 reportTabeli">
+          <thead class="thead-dark">
+          <tr>
+            <th scope="col">Number of Quizzes</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="item : ${items}">
+            <td th:text="${item.getBrojResheniKvizovi()}"></td>
+
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-9625">
+
+  <div th:insert="~{_layout :: footer}"></div>
+
+</footer>
+</body></html>
