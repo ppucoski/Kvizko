@@ -83,13 +83,13 @@ public class Controller {
     }
 
 
-    public boolean priviligeCheck(Long userid) {
+    public boolean privilegeCheck(Long userid) {
         return administratorRepository.findById(userid).isPresent();
     }
 
-    private void setPrivilige(Model model, HttpSession session) {
+    private void setPrivilege(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user != null && priviligeCheck(user.getUserid())) {
+        if (user != null && privilegeCheck(user.getUserid())) {
             model.addAttribute("isAdmin", true);
         } else {
             model.addAttribute("isAdmin", false);
@@ -98,7 +98,7 @@ public class Controller {
 
     private boolean redirectNonAdmin(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        return user == null || !priviligeCheck(user.getUserid());
+        return user == null || !privilegeCheck(user.getUserid());
     }
 
 
@@ -106,17 +106,16 @@ public class Controller {
     public String index(Model model, HttpSession session) {
         model.addAttribute("subjects", subjectService.listAll());
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
         return "index";
     }
-
 
     @GetMapping("/{subjectid}/categories")
     public String selectCategory(@PathVariable Long subjectid, Model model, HttpSession session) {
         model.addAttribute("categories", categoryService.findBySubject(subjectid));
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
         return "Quizzes-and-categories";
     }
@@ -125,7 +124,7 @@ public class Controller {
     public String selectQuiz(@PathVariable Long categoryid, Model model, HttpSession session) {
         model.addAttribute("quizzes", quizService.quizzesByCategoryID(categoryid));
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
         return "Quizzes-and-categories";
     }
@@ -146,7 +145,7 @@ public class Controller {
 
         session.setAttribute("attempt", attempt);
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
         Collections.shuffle(questionsByQuiz);
@@ -181,7 +180,7 @@ public class Controller {
                               HttpSession session) {
 
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
         if (questionsByQuiz.isEmpty()) {
 
@@ -234,14 +233,14 @@ public class Controller {
     @GetMapping("/getLogin")
     public String getLogin(HttpSession session, Model model) {
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         return "Login";
     }
 
     @GetMapping("/getRegister")
     public String getRegister(HttpSession session, Model model) {
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         return "Sign-up";
     }
 
@@ -278,7 +277,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
 
         return "reportList";
@@ -292,7 +291,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
 
 
         List<Avgpoenizakviz> list=avgpoenizakvizRepository.findAll();
@@ -317,7 +316,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", brturniribrigrachibrkvizovibrmedaliRepository.findAll());
         return "Brturniribrigrachibrkvizovibrmedali";
     }
@@ -330,7 +329,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", izveshtajzaturnirRepository.findAll());
         return "Izveshtajzaturniri";
     }
@@ -343,7 +342,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", korisnicirangiranisporedmedaliRepository.findAll());
         return "medalRankings";
     }
@@ -356,7 +355,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", kvizovirangiranisporedtochniprashanjaRepository.findAll());
         return "correctQuestionQuizRankings";
     }
@@ -369,7 +368,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", najangazhiranikorisniciRepository.findAll());
         return "hardestWorkers";
     }
@@ -382,7 +381,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", najigranikvizoviRepository.findAll());
         return "topQuizzes";
     }
@@ -395,7 +394,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", prashanjarangiranisporedtochniodgovoriRepository.findAll());
         return "questionsRankedByCorrectAnswer";
     }
@@ -408,7 +407,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", top5ReshavachiRepository.findAll());
         return "top5Solvers";
     }
@@ -421,7 +420,7 @@ public class Controller {
             return "redirect:/";
         }
         model.addAttribute("user", session.getAttribute("user"));
-        setPrivilige(model, session);
+        setPrivilege(model, session);
         model.addAttribute("items", vkbrojreshenikvizovivo3MeseciRepositoryRepository.findAll());
         return "totalQuizzes3Months";
     }
