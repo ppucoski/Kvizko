@@ -1,5 +1,6 @@
 package com.example.kvizko.web;
 
+import com.example.kvizko.exceptions.InvalidCredentialsException;
 import com.example.kvizko.exceptions.UsernameAlreadyTakenException;
 import com.example.kvizko.models.*;
 
@@ -82,26 +83,21 @@ public class Controller {
     }
 
 
-    public boolean priviligeCheck(Long userid)
-    {
+    public boolean priviligeCheck(Long userid) {
         return administratorRepository.findById(userid).isPresent();
     }
 
     private void setPrivilige(Model model, HttpSession session) {
-        User user=(User) session.getAttribute("user");
-        if(user!=null && priviligeCheck(user.getUserid()))
-        {
+        User user = (User) session.getAttribute("user");
+        if (user != null && priviligeCheck(user.getUserid())) {
             model.addAttribute("isAdmin", true);
-        }
-        else
-        {
+        } else {
             model.addAttribute("isAdmin", false);
         }
     }
 
-    private boolean redirectNonAdmin(HttpSession session)
-    {
-        User user=(User) session.getAttribute("user");
+    private boolean redirectNonAdmin(HttpSession session) {
+        User user = (User) session.getAttribute("user");
         return user == null || !priviligeCheck(user.getUserid());
     }
 
@@ -137,14 +133,12 @@ public class Controller {
     @GetMapping("/{quizid}/quizStart")
     public String quizStart(@PathVariable Long quizid, Model model, HttpSession session) {
 
-        Attempt attempt=null;
-        if(session.getAttribute("user")!=null)
-        {
-            User user=(User) session.getAttribute("user");
-            Quiztaker quiztaker=quizTakerService.findById(user.getUserid());
-            if(quiztaker!=null)
-            {
-                attempt=attemptService.save(quiztaker, java.sql.Date.valueOf(LocalDate.now()), quizService.quizById(quizid));
+        Attempt attempt = null;
+        if (session.getAttribute("user") != null) {
+            User user = (User) session.getAttribute("user");
+            Quiztaker quiztaker = quizTakerService.findById(user.getUserid());
+            if (quiztaker != null) {
+                attempt = attemptService.save(quiztaker, java.sql.Date.valueOf(LocalDate.now()), quizService.quizById(quizid));
             }
 
 
@@ -192,16 +186,13 @@ public class Controller {
         if (questionsByQuiz.isEmpty()) {
 
 
-
             if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
             }
 
-            Attempt attempt=(Attempt) session.getAttribute("attempt");
-            if(attempt!=null)
-            {
-                if(selectedChoice!=null)
-                {
+            Attempt attempt = (Attempt) session.getAttribute("attempt");
+            if (attempt != null) {
+                if (selectedChoice != null) {
                     selectedchoiceService.save(selectedChoice, attempt);
 
                 }
@@ -222,8 +213,7 @@ public class Controller {
             Question currentQuestion = questionsByQuiz.remove(0);
             session.setAttribute("questionsByQuiz", questionsByQuiz);
 
-            if(session.getAttribute("attempt")!=null && selectedChoice!=null)
-            {
+            if (session.getAttribute("attempt") != null && selectedChoice != null) {
                 selectedchoiceService.save(selectedChoice, (Attempt) session.getAttribute("attempt"));
             }
 
@@ -258,18 +248,9 @@ public class Controller {
     @PostMapping("/processLogin")
     public String processLogin(@RequestParam String username,
                                @RequestParam String password,
-                               HttpSession session) {
+                               HttpSession session) throws InvalidCredentialsException {
         User user = this.userService.findByUsernameAndPassword(username, password);
-        if (user == null) {
-            return "redirect:/getLogin";
-        }
         session.setAttribute("user", user);
-
-        return "redirect:/";
-    }
-
-    @GetMapping("/returnIndex")
-    public String returnIndex() {
         return "redirect:/";
     }
 

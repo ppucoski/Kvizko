@@ -1,5 +1,6 @@
 package com.example.kvizko.service.impl;
 
+import com.example.kvizko.exceptions.InvalidCredentialsException;
 import com.example.kvizko.exceptions.UsernameAlreadyTakenException;
 import com.example.kvizko.models.Quiztaker;
 import com.example.kvizko.models.User;
@@ -20,7 +21,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByUsernameAndPassword(String username, String password) {
+    public User findByUsernameAndPassword(String username, String password) throws InvalidCredentialsException {
+        if(this.userRepository.findByUsernameAndPasswordAttr(username, password)==null)
+            throw new InvalidCredentialsException();
+
         return this.userRepository.findByUsernameAndPasswordAttr(username, password);
     }
 
