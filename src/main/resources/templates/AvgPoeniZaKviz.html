@@ -43,14 +43,14 @@
                     <table class="table table-bordered mt-3 reportTabeli">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">User ID</th>
+                            <th scope="col">Username</th>
                             <th scope="col">Quiz Name</th>
                             <th scope="col">Average number of points</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="item : ${items}">
-                            <td th:text="${item.getUserid()}"></td>
+                            <td th:text="${item.getUsername()}"></td>
                             <td th:text="${item.getQuizname()}"></td>
                             <td th:text="${item.getAvg()}"></td>
 

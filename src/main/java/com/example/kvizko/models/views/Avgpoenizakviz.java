@@ -1,5 +1,7 @@
 package com.example.kvizko.models.views;
 
+import com.example.kvizko.models.EmbeddedClasses.AvgpoenizakvizIdClass;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,28 +16,27 @@ import java.math.BigDecimal;
 @Data
 public class Avgpoenizakviz {
 
-  @Id
-  private long userid;
-  private String quizname;
+  @EmbeddedId
+  private AvgpoenizakvizIdClass avgpoenizakvizIdClass;
   private BigDecimal avg;
 
 
-  public long getUserid() {
-    return userid;
+  public String getUsername() {
+    return avgpoenizakvizIdClass.getUsername();
   }
 
-  public void setUserid(long userid) {
-    this.userid = userid;
-  }
+  /*public void setUsername(String username) {
+    this.username = username;
+  }*/
 
 
   public String getQuizname() {
-    return quizname;
+    return avgpoenizakvizIdClass.getQuizname();
   }
 
-  public void setQuizname(String quizname) {
+  /*public void setQuizname(String quizname) {
     this.quizname = quizname;
-  }
+  }*/
 
 
   public BigDecimal getAvg() {

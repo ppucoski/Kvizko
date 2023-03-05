@@ -29,6 +29,9 @@ public class Controller {
     private final AttemptService attemptService;
     private final ResultService resultService;
     private final QuizTakerService quizTakerService;
+    private final SelectedchoiceService selectedchoiceService;
+
+    private final AdministratorRepository administratorRepository;
 
     private final AvgpoenizakvizRepository avgpoenizakvizRepository;
     private final BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository;
@@ -45,7 +48,7 @@ public class Controller {
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService,
                       QuestionService questionService, ChoiceService choiceService, UserService userService,
                       AttemptService attemptService, ResultService resultService, QuizTakerService quizTakerService,
-                      AvgpoenizakvizRepository avgpoenizakvizRepository,
+                      SelectedchoiceService selectedchoiceService, AdministratorRepository administratorRepository, AvgpoenizakvizRepository avgpoenizakvizRepository,
                       BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository,
                       IzveshtajzaturnirRepository izveshtajzaturnirRepository,
                       KorisnicirangiranisporedmedaliRepository korisnicirangiranisporedmedaliRepository,
@@ -64,6 +67,8 @@ public class Controller {
         this.attemptService = attemptService;
         this.resultService = resultService;
         this.quizTakerService = quizTakerService;
+        this.selectedchoiceService = selectedchoiceService;
+        this.administratorRepository = administratorRepository;
         this.avgpoenizakvizRepository = avgpoenizakvizRepository;
         this.brturniribrigrachibrkvizovibrmedaliRepository = brturniribrigrachibrkvizovibrmedaliRepository;
         this.izveshtajzaturnirRepository = izveshtajzaturnirRepository;
@@ -77,18 +82,46 @@ public class Controller {
     }
 
 
+    public boolean priviligeCheck(Long userid)
+    {
+        return administratorRepository.findById(userid).isPresent();
+    }
+
+    private void setPrivilige(Model model, HttpSession session) {
+        User user=(User) session.getAttribute("user");
+        if(user!=null && priviligeCheck(user.getUserid()))
+        {
+            model.addAttribute("isAdmin", true);
+        }
+        else
+        {
+            model.addAttribute("isAdmin", false);
+        }
+    }
+
+    private boolean redirectNonAdmin(HttpSession session)
+    {
+        User user=(User) session.getAttribute("user");
+        return user == null || !priviligeCheck(user.getUserid());
+    }
+
+
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         model.addAttribute("subjects", subjectService.listAll());
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
 
         return "index";
     }
+
 
     @GetMapping("/{subjectid}/categories")
     public String selectCategory(@PathVariable Long subjectid, Model model, HttpSession session) {
         model.addAttribute("categories", categoryService.findBySubject(subjectid));
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
+
         return "Quizzes-and-categories";
     }
 
@@ -96,6 +129,8 @@ public class Controller {
     public String selectQuiz(@PathVariable Long categoryid, Model model, HttpSession session) {
         model.addAttribute("quizzes", quizService.quizzesByCategoryID(categoryid));
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
+
         return "Quizzes-and-categories";
     }
 
@@ -117,6 +152,7 @@ public class Controller {
 
         session.setAttribute("attempt", attempt);
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
         Collections.shuffle(questionsByQuiz);
@@ -151,8 +187,11 @@ public class Controller {
                               HttpSession session) {
 
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
 
         if (questionsByQuiz.isEmpty()) {
+
+
 
             if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
@@ -161,6 +200,11 @@ public class Controller {
             Attempt attempt=(Attempt) session.getAttribute("attempt");
             if(attempt!=null)
             {
+                if(selectedChoice!=null)
+                {
+                    selectedchoiceService.save(selectedChoice, attempt);
+
+                }
                 resultService.save(attempt, correctQuestionCounter * 100 / questionCount);
             }
 
@@ -178,6 +222,10 @@ public class Controller {
             Question currentQuestion = questionsByQuiz.remove(0);
             session.setAttribute("questionsByQuiz", questionsByQuiz);
 
+            if(session.getAttribute("attempt")!=null && selectedChoice!=null)
+            {
+                selectedchoiceService.save(selectedChoice, (Attempt) session.getAttribute("attempt"));
+            }
 
             if (selectedChoice != null && choiceService.getById(selectedChoice).isIscorrect()) {
                 correctQuestionCounter++;
@@ -196,12 +244,14 @@ public class Controller {
     @GetMapping("/getLogin")
     public String getLogin(HttpSession session, Model model) {
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         return "Login";
     }
 
     @GetMapping("/getRegister")
     public String getRegister(HttpSession session, Model model) {
         model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         return "Sign-up";
     }
 
@@ -214,6 +264,7 @@ public class Controller {
             return "redirect:/getLogin";
         }
         session.setAttribute("user", user);
+
         return "redirect:/";
     }
 
@@ -239,24 +290,34 @@ public class Controller {
     }
 
     @GetMapping("/reports")
-    public String reportList(Model model)
+    public String reportList(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
+
+
         return "reportList";
     }
 
     @GetMapping("/avgPoints")
     public String avgPoints(Model model, HttpSession session)
     {
-        /*User user=(User) session.getAttribute("user");
-        if(user==null)
+        if(redirectNonAdmin(session))
         {
-            return "redirect:/index";
-        }*/
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
+
 
         List<Avgpoenizakviz> list=avgpoenizakvizRepository.findAll();
         list.forEach(
                 x -> {
-                    DecimalFormat df = new DecimalFormat("###.##");
+                    DecimalFormat df = new DecimalFormat("###,##");
                     BigDecimal bigDecimal=x.getAvg();
                     x.setAvg(new BigDecimal(df.format(bigDecimal)));
                 }
@@ -268,64 +329,118 @@ public class Controller {
     }
 
     @GetMapping("/numbersReport")
-    public String numbersReport(Model model)
+    public String numbersReport(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", brturniribrigrachibrkvizovibrmedaliRepository.findAll());
         return "Brturniribrigrachibrkvizovibrmedali";
     }
 
     @GetMapping("/tournamentsReport")
-    public String tournamentsReport(Model model)
+    public String tournamentsReport(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", izveshtajzaturnirRepository.findAll());
         return "Izveshtajzaturniri";
     }
 
     @GetMapping("/medalRankings")
-    public String medalRankings(Model model)
+    public String medalRankings(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", korisnicirangiranisporedmedaliRepository.findAll());
         return "medalRankings";
     }
 
     @GetMapping("/correctQuestionQuizRankings")
-    public String correctQuestionQuizRankings(Model model)
+    public String correctQuestionQuizRankings(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", kvizovirangiranisporedtochniprashanjaRepository.findAll());
         return "correctQuestionQuizRankings";
     }
 
     @GetMapping("/hardestWorkers")
-    public String hardestWorkers(Model model)
+    public String hardestWorkers(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", najangazhiranikorisniciRepository.findAll());
         return "hardestWorkers";
     }
 
     @GetMapping("/topQuizzes")
-    public String topQuizzes(Model model)
+    public String topQuizzes(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", najigranikvizoviRepository.findAll());
         return "topQuizzes";
     }
 
     @GetMapping("/questionsRankedByCorrectAnswer")
-    public String questionsRankedByQuiz(Model model)
+    public String questionsRankedByQuiz(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", prashanjarangiranisporedtochniodgovoriRepository.findAll());
         return "questionsRankedByCorrectAnswer";
     }
 
     @GetMapping("/top5Solvers")
-    public String top5Solvers(Model model)
+    public String top5Solvers(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", top5ReshavachiRepository.findAll());
         return "top5Solvers";
     }
 
     @GetMapping("/totalQuizzes3Months")
-    public String totalQuizzes3Months(Model model)
+    public String totalQuizzes3Months(Model model, HttpSession session)
     {
+        if(redirectNonAdmin(session))
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilige(model, session);
         model.addAttribute("items", vkbrojreshenikvizovivo3MeseciRepositoryRepository.findAll());
         return "totalQuizzes3Months";
     }

@@ -1,5 +1,7 @@
 package com.example.kvizko.models.views;
 
+import com.example.kvizko.models.EmbeddedClasses.Top5ReshavachiIdClass;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,19 +14,20 @@ import org.hibernate.annotations.Immutable;
 @Data
 public class Top5Reshavachi {
 
-  @Id
-  private String username;
+  @EmbeddedId
+  private Top5ReshavachiIdClass top5ReshavachiIdClass;
+
   private long points;
-  private String quizname;
+
 
 
   public String getUsername() {
-    return username;
+    return top5ReshavachiIdClass.getUsername();
   }
 
-  public void setUsername(String username) {
+  /*public void setUsername(String username) {
     this.username = username;
-  }
+  }*/
 
 
   public long getPoints() {
@@ -37,11 +40,11 @@ public class Top5Reshavachi {
 
 
   public String getQuizname() {
-    return quizname;
+    return top5ReshavachiIdClass.getQuizname();
   }
 
-  public void setQuizname(String quizname) {
+/*  public void setQuizname(String quizname) {
     this.quizname = quizname;
-  }
+  }*/
 
 }
