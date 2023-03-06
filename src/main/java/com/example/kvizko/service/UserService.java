@@ -9,4 +9,5 @@ public interface UserService {
     public User findByUsernameAndPassword(String username, String password) throws InvalidCredentialsException;
 
     public void registerUser(String username, String full_name, String password) throws UsernameAlreadyTakenException;
+
 }

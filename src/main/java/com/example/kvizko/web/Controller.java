@@ -107,7 +107,6 @@ public class Controller {
         model.addAttribute("subjects", subjectService.listAll());
         model.addAttribute("user", session.getAttribute("user"));
         setPrivilege(model, session);
-
         return "index";
     }
 
