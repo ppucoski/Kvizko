@@ -232,14 +232,26 @@ public class Controller {
 
     @GetMapping("/getLogin")
     public String getLogin(HttpSession session, Model model) {
+        if(session.getAttribute("user")!=null)
+        {
+            return "redirect:/";
+        }
         model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("invalidSignin", session.getAttribute("invalidSignin"));
+        session.removeAttribute("invalidSignin");
         setPrivilege(model, session);
         return "Login";
     }
 
     @GetMapping("/getRegister")
     public String getRegister(HttpSession session, Model model) {
+        if(session.getAttribute("user")!=null)
+        {
+            return "redirect:/";
+        }
         model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("invalidRegister", session.getAttribute("invalidRegister"));
+        session.removeAttribute("invalidRegister");
         setPrivilege(model, session);
         return "Sign-up";
     }
@@ -247,18 +259,30 @@ public class Controller {
     @PostMapping("/processLogin")
     public String processLogin(@RequestParam String username,
                                @RequestParam String password,
-                               HttpSession session) throws InvalidCredentialsException {
-        User user = this.userService.findByUsernameAndPassword(username, password);
+                               HttpSession session) {
+        User user = null;
+        try {
+            user = this.userService.findByUsernameAndPassword(username, password);
+        } catch (InvalidCredentialsException e) {
+            session.setAttribute("invalidSignin", true);
+            return "redirect:/getLogin";
+        }
         session.setAttribute("user", user);
+        session.removeAttribute("invalidSignin");
         return "redirect:/";
     }
 
     @PostMapping("/processSignup")
     public String processSignup(@RequestParam String username,
                                 @RequestParam(required = false) String full_name,
-                                @RequestParam String password) throws UsernameAlreadyTakenException {
+                                @RequestParam String password, HttpSession session) {
 
-        this.userService.registerUser(username, full_name, password);
+        try {
+            this.userService.registerUser(username, full_name, password);
+        } catch (UsernameAlreadyTakenException e) {
+            session.setAttribute("invalidRegister", true);
+            return "redirect:/getRegister";
+        }
         return "redirect:/";
     }
 

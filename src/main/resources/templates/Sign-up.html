@@ -97,6 +97,11 @@
                   <button type="submit"  class="u-active-palette-3-base u-border-3 u-border-active-palette-3-base u-border-hover-palette-3-base u-border-palette-2-base u-hover-palette-3-base u-palette-2-base u-radius-50 u-btn u-btn-round u-button-style u-btn-1">Sign up</button>
               </div>
 
+              <div style="margin: auto auto 20px; color: red; font-weight: bold;"
+                   th:if="${invalidRegister==true}">
+                  A user with that username already exists!
+              </div>
+
 
 <!--            <input type="hidden" value="" name="recaptchaResponse">
             <input type="hidden" name="formServices" value="14dc455e684d81d7b943a25db939938b">-->
