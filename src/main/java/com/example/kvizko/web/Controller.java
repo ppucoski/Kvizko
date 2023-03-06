@@ -320,9 +320,10 @@ public class Controller {
         List<Avgpoenizakviz> list=avgpoenizakvizRepository.findAll();
         list.forEach(
                 x -> {
-                    DecimalFormat df = new DecimalFormat("###,##");
+                    /*DecimalFormat df = new DecimalFormat("###,##");
                     BigDecimal bigDecimal=x.getAvg();
-                    x.setAvg(new BigDecimal(df.format(bigDecimal)));
+                    x.setAvg(new BigDecimal(df.format(bigDecimal)));*/
+                    x.setAvg(BigDecimal.valueOf(x.getAvg().intValue()));
                 }
 
         );
