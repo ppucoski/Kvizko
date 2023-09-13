@@ -251,6 +251,7 @@ public class Controller {
         }
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("invalidRegister", session.getAttribute("invalidRegister"));
+        model.addAttribute("passwordDoNotMatch", session.getAttribute("passwordDoNotMatch"));
         session.removeAttribute("invalidRegister");
         setPrivilege(model, session);
         return "Sign-up";
@@ -269,16 +270,26 @@ public class Controller {
         }
         session.setAttribute("user", user);
         session.removeAttribute("invalidSignin");
+        session.removeAttribute("passwordDoNotMatch");
         return "redirect:/";
     }
 
     @PostMapping("/processSignup")
     public String processSignup(@RequestParam String username,
                                 @RequestParam(required = false) String full_name,
-                                @RequestParam String password, HttpSession session) {
+                                @RequestParam String password,
+                                @RequestParam String password2,
+                                HttpSession session) {
+
 
         try {
-            this.userService.registerUser(username, full_name, password);
+            if(password.equals(password2)){
+                this.userService.registerUser(username, full_name, password);
+            }
+            else {
+                session.setAttribute("passwordDoNotMatch", true);
+                return "redirect:/getRegister";
+            }
         } catch (UsernameAlreadyTakenException e) {
             session.setAttribute("invalidRegister", true);
             return "redirect:/getRegister";

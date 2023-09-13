@@ -72,7 +72,7 @@
 
 
   </header>
-    <section style="height: 70.6%" class="u-align-center u-clearfix u-container-align-center u-image u-section-1" id="sec-c3e6" data-image-width="1280" data-image-height="1280">
+    <section style="height: 72.6%" class="u-align-center u-clearfix u-container-align-center u-image u-section-1" id="sec-c3e6" data-image-width="1280" data-image-height="1280">
       <div class="u-clearfix u-sheet u-sheet-1">
         <div class="u-align-center u-form u-radius-20 u-white u-form-1">
           <form method="post" action="/processSignup" class="u-clearfix u-form-spacing-15 u-form-vertical u-inner-form" name="form" style="padding: 23px;">
@@ -89,6 +89,10 @@
               <label for="name-4c18" class="u-label">Password</label>
               <input type="password" placeholder="Enter your password" id="name-4c18" name="password" class="u-border-2 u-border-grey-10 u-grey-10 u-input u-input-rectangle u-radius-10" required="">
             </div>
+              <div class="u-form-group u-form-name">
+                  <label for="name-4c20" class="u-label">Confirm Password</label>
+                  <input type="password" placeholder="Confirm your password" id="name-4c20" name="password2" class="u-border-2 u-border-grey-10 u-grey-10 u-input u-input-rectangle u-radius-10" required="">
+              </div>
             <!--<div class="u-align-center u-form-group u-form-submit">
               <button type="submit" class="u-active-palette-3-base u-border-3 u-border-active-palette-3-base u-border-hover-palette-3-base u-border-palette-2-base u-btn u-btn-round u-btn-submit u-button-style u-hover-palette-3-base u-palette-2-base u-radius-50 u-btn-1">Sign up</button>
             </div>-->
@@ -101,6 +105,11 @@
                    th:if="${invalidRegister==true}">
                   A user with that username already exists!
               </div>
+              <div style="margin: auto auto 20px; color: red; font-weight: bold;"
+                   th:if="${passwordDoNotMatch==true}">
+                  The passwords you have entered do not match!
+              </div>
+
 
 
 <!--            <input type="hidden" value="" name="recaptchaResponse">
