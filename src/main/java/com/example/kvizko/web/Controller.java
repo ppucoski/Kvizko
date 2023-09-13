@@ -253,6 +253,7 @@ public class Controller {
         model.addAttribute("invalidRegister", session.getAttribute("invalidRegister"));
         model.addAttribute("passwordDoNotMatch", session.getAttribute("passwordDoNotMatch"));
         session.removeAttribute("invalidRegister");
+        session.removeAttribute("passwordDoNotMatch");
         setPrivilege(model, session);
         return "Sign-up";
     }
