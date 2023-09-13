@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,6 +43,7 @@ public class Controller {
     private final PrashanjarangiranisporedtochniodgovoriRepository prashanjarangiranisporedtochniodgovoriRepository;
     private final Top5ReshavachiRepository top5ReshavachiRepository;
     private final Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository;
+    private final LeaderboardRepository leaderboardRepository;
 
 
     public Controller(QuizService quizService, CategoryService categoryService, SubjectService subjectService,
@@ -58,7 +58,7 @@ public class Controller {
                       NajigranikvizoviRepository najigranikvizoviRepository,
                       PrashanjarangiranisporedtochniodgovoriRepository prashanjarangiranisporedtochniodgovoriRepository,
                       Top5ReshavachiRepository top5ReshavachiRepository,
-                      Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository) {
+                      Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository, LeaderboardRepository leaderboardRepository) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.subjectService = subjectService;
@@ -80,6 +80,7 @@ public class Controller {
         this.prashanjarangiranisporedtochniodgovoriRepository = prashanjarangiranisporedtochniodgovoriRepository;
         this.top5ReshavachiRepository = top5ReshavachiRepository;
         this.vkbrojreshenikvizovivo3MeseciRepositoryRepository = vkbrojreshenikvizovivo3MeseciRepositoryRepository;
+        this.leaderboardRepository = leaderboardRepository;
     }
 
 
@@ -434,6 +435,15 @@ public class Controller {
         setPrivilege(model, session);
         model.addAttribute("items", top5ReshavachiRepository.findAll());
         return "top5Solvers";
+    }
+    @GetMapping("/leaderboard")
+    public String leaderboard(Model model, HttpSession session)
+    {
+
+        model.addAttribute("user", session.getAttribute("user"));
+        setPrivilege(model, session);
+        model.addAttribute("items", leaderboardRepository.findAll());
+        return "leaderboard";
     }
 
     @GetMapping("/totalQuizzes3Months")
