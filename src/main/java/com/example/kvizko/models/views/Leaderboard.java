@@ -2,10 +2,7 @@ package com.example.kvizko.models.views;
 
 import com.example.kvizko.models.EmbeddedClasses.LeaderboardIdClass;
 import com.example.kvizko.models.EmbeddedClasses.Top5ReshavachiIdClass;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Immutable;
 
@@ -18,19 +15,20 @@ public class Leaderboard {
     @EmbeddedId
     private LeaderboardIdClass leaderboardIdClass;
 
-    private long points;
+    @Column(name = "total_points")
+    private int total_points;
 
 
     public String getUsername() {
         return leaderboardIdClass.getUsername();
     }
 
-    public long getPoints() {
-        return points;
+    public int getPoints() {
+        return total_points;
     }
 
-    public void setPoints(long points) {
-        this.points = points;
+    public void setPoints(int points) {
+        this.total_points = points;
     }
 }
 
