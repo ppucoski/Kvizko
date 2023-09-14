@@ -168,8 +168,9 @@ public class Controller {
         List<Choice> choicesByQuestion = choiceService.choicesByQuestion(firstQuestion);
         Collections.shuffle(choicesByQuestion);
         model.addAttribute("choices", choicesByQuestion);
-
         model.addAttribute("lastQuestion", false);
+
+        session.setAttribute("selectedChoices", new ArrayList<Choice>());
 
         return "Question-and-choices";
     }
@@ -186,6 +187,12 @@ public class Controller {
 
         model.addAttribute("user", session.getAttribute("user"));
         setPrivilege(model, session);
+
+        List<Choice> selectedChoices=(List<Choice>) session.getAttribute("selectedChoices");
+        Choice selectedChoiceObj=choiceService.getById(selectedChoice);
+        selectedChoiceObj.setSelectionquestion(null);
+        selectedChoices.add(selectedChoiceObj);
+        session.setAttribute("selectedChoices", selectedChoices);
 
         if (questionsByQuiz.isEmpty()) {
 
@@ -205,6 +212,7 @@ public class Controller {
 
             model.addAttribute("result", correctQuestionCounter * 100 / questionCount);
             model.addAttribute("allQuestions", session.getAttribute("allQuestions"));
+            model.addAttribute("selectedChoices", selectedChoices);
             return "Result";
         } else {
             if (questionsByQuiz.size() == 1) {

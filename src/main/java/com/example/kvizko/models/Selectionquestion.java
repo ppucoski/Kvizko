@@ -15,7 +15,7 @@ public class Selectionquestion {
 
   private long questionid;
 
-  @OneToMany(mappedBy = "selectionquestion", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "selectionquestion")
   private List<Choice> choices; //ova mozhe da se iskoristi za ponatamu
 
 
