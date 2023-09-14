@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -152,7 +153,13 @@ public class Controller {
 
         questionsByQuiz=questionsByQuiz.stream().limit(5).collect(Collectors.toList());
 
+        List<Choice> correctChoices = new ArrayList<>();
         List<Question> allQuestions = new ArrayList<>(questionsByQuiz);
+        for(Question question : allQuestions)
+        {
+            correctChoices.addAll( this.choiceService.choicesByQuestion(question).stream().filter(Choice::isIscorrect).toList());
+        }
+        session.setAttribute("correctChoices", correctChoices);
         session.setAttribute("allQuestions",allQuestions);
 
         Question firstQuestion = questionsByQuiz.remove(0);
@@ -212,6 +219,7 @@ public class Controller {
 
             model.addAttribute("result", correctQuestionCounter * 100 / questionCount);
             model.addAttribute("allQuestions", session.getAttribute("allQuestions"));
+            model.addAttribute("correctChoices", session.getAttribute("correctChoices"));
             model.addAttribute("selectedChoices", selectedChoices);
             return "Result";
         } else {

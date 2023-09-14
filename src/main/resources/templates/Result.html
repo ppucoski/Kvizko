@@ -4,54 +4,75 @@
     <meta charset="utf-8">
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Result</title>
+    <title>Top 5 Solvers Report</title>
     <link rel="stylesheet" href="temp.css" media="screen">
-<link rel="stylesheet" href="Result.css" media="screen">
+    <link rel="stylesheet" href="Result.css" media="screen">
+    <link rel="stylesheet" href="styles.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="temp.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.4.4, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    
-    
+
+
     <script type="application/ld+json">{
-		"@context": "http://schema.org",
-		"@type": "Organization",
-		"name": "",
-		"logo": "images/logo.png"
-}</script>
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "",
+        "logo": "images/logo.png"
+    }</script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="Result">
     <meta property="og:type" content="website">
-  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
-  <body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2d07">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+<body class="u-body u-xl-mode" data-lang="en"><header class="u-clearfix u-header u-header" id="sec-2d07">
 
 
 
-      <div th:insert="~{_layout :: header}"></div>
+    <div th:insert="~{_layout :: header}"></div>
 
 
 
-  </header>
-    <section class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-clearfix u-palette-1-base u-section-1" id="sec-88e1">
+</header>
+    <section class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-clearfix u-palette-1-base u-section-1" id="sec-88e1" style="height: 250px">
       <div class="u-clearfix u-sheet u-valign-middle-lg u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
-        <div class="u-bottom-left-radius-19 u-container-align-center u-container-style u-group u-palette-1-base u-shape-round u-top-left-radius-19 u-group-1">
+        <div class="u-bottom-left-radius-19 u-container-align-center u-container-style u-group u-palette-1-base u-shape-round u-top-left-radius-19 u-group-1" style="margin-top: 150px">
           <div class="u-container-layout u-valign-middle u-container-layout-1">
-              <p class="u-align-center u-text u-text-default u-text-1">You scored: <span th:text="${result}"></span> points</p>
-              <p th:each="question,iterStat:${allQuestions}" th:var="counter=${iterStat.index + 1}" class="u-align-center u-text u-text-default u-text-1">
-                  <span th:text="${question.getQuestiontext()}"></span>
-
-                  <br>
-
-                  <span>Your choice: </span>
-                  <span th:text="${selectedChoices[counter].getChoicetext()}"></span>
-              </p>
+              <p class="u-align-center u-text u-text-default u-text-1" style="font-size: 3.25rem;">You scored: <span th:text="${result}"></span> points</p>
           </div>
 
         </div>
       </div>
     </section>
-    
-    
+
+  <section class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-clearfix u-palette-1-base u-section-1" id="sec-88e2">
+      <div class="u-clearfix u-sheet u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-sheet-1">
+          <div class="u-container-layout u-valign-middle u-container-layout-1">
+              <div class="u-align-center u-text u-text-default u-text-1">
+                  <h2 style="margin-top: 100px; margin-bottom: 50px" class="u-container-layout u-valign-middle u-container-layout-1">Your Answers</h2>
+                  <table class="table table-bordered mt-3 reportTabeli">
+                      <thead class="thead-dark">
+                      <tr>
+                          <th scope="col">Question</th>
+                          <th scope="col">Selected Answer</th>
+                          <th scope="col">Correct Answer</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="question, iterStat1 : ${allQuestions}">
+                          <td style="font-size: 1.75rem;" th:text="${question.getQuestiontext()}"></td>
+                          <td style="font-size: 1.75rem; background-color: green" th:if="${iterStat1.index < #lists.size(selectedChoices) && selectedChoices[iterStat1.index].isIscorrect()}" th:text="${selectedChoices[iterStat1.index].getChoicetext()}"></td>
+                          <td style="font-size: 1.75rem; background-color: red" th:if="${iterStat1.index < #lists.size(selectedChoices) && !selectedChoices[iterStat1.index].isIscorrect()}" th:text="${selectedChoices[iterStat1.index].getChoicetext()}"></td>
+                          <td style="font-size: 1.75rem;" th:if="${iterStat1.index < #lists.size(correctChoices)}" th:text="${correctChoices[iterStat1.index].getChoicetext()}"></td>
+                          <td style="font-size: 1.75rem;" th:unless="${iterStat1.index < #lists.size(selectedChoices)}">No answer</td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </section>
+
+
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-9625">
 
         <div th:insert="~{_layout :: footer}"></div>
