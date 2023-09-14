@@ -149,17 +149,20 @@ public class Controller {
 
         List<Question> questionsByQuiz = questionService.questionsByQuiz(quizid);
         Collections.shuffle(questionsByQuiz);
-        List<Question> allQuestions = questionsByQuiz;
+
+        questionsByQuiz=questionsByQuiz.stream().limit(5).collect(Collectors.toList());
+
+        List<Question> allQuestions = new ArrayList<>(questionsByQuiz);
         session.setAttribute("allQuestions",allQuestions);
 
         Question firstQuestion = questionsByQuiz.remove(0);
+        model.addAttribute("question", firstQuestion);
+
+        session.setAttribute("questionsByQuiz", questionsByQuiz);
 
         session.setAttribute("quizName", quizService.quizById(quizid).getQuizname());
-        session.setAttribute("questionsByQuiz", questionsByQuiz.stream().limit(4)
-                .collect(Collectors.toList()));
         session.setAttribute("questionCount", 5);
         session.setAttribute("correctQuestionCounter", 0);
-        model.addAttribute("question", firstQuestion);
 
 
         List<Choice> choicesByQuestion = choiceService.choicesByQuestion(firstQuestion);
@@ -167,7 +170,6 @@ public class Controller {
         model.addAttribute("choices", choicesByQuestion);
 
         model.addAttribute("lastQuestion", false);
-        session.setAttribute("selectedChoices", new LinkedList<Choice>());
 
         return "Question-and-choices";
     }
@@ -184,9 +186,6 @@ public class Controller {
 
         model.addAttribute("user", session.getAttribute("user"));
         setPrivilege(model, session);
-        List<Choice> selectedchoices = (List<Choice>) session.getAttribute("selectedChoices");
-        selectedchoices.add(choiceService.getById(selectedChoice));
-        session.setAttribute("selectedChoices", selectedchoices);
 
         if (questionsByQuiz.isEmpty()) {
 
@@ -205,8 +204,7 @@ public class Controller {
             }
 
             model.addAttribute("result", correctQuestionCounter * 100 / questionCount);
-           model.addAttribute("allQuestions", session.getAttribute("allQuestions"));
-           model.addAttribute("selectedChoices", session.getAttribute("selectedChoices"));
+            model.addAttribute("allQuestions", session.getAttribute("allQuestions"));
             return "Result";
         } else {
             if (questionsByQuiz.size() == 1) {
@@ -216,6 +214,7 @@ public class Controller {
             }
             session.setAttribute("questionCount", questionCount);
             session.setAttribute("quizName", quizName);
+
 
             Question currentQuestion = questionsByQuiz.remove(0);
             session.setAttribute("questionsByQuiz", questionsByQuiz);
