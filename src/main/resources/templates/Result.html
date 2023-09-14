@@ -37,7 +37,19 @@
         <div class="u-bottom-left-radius-19 u-container-align-center u-container-style u-group u-palette-1-base u-shape-round u-top-left-radius-19 u-group-1">
           <div class="u-container-layout u-valign-middle u-container-layout-1">
               <p class="u-align-center u-text u-text-default u-text-1">You scored: <span th:text="${result}"></span> points</p>
+              <p th:each="question:${allQuestions}" class="u-align-center u-text u-text-default u-text-1">
+                    <span th:text="${question.getQuestiontext()}">
+                        <span th:each="choice:${selectedChoices}">
+                            <span th:if="${choice.getSelectionquestion().getQuestionid() == question.getQuestionid()}">
+                                <span th:text="${choice.getChoicetext()}">
+
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+              </p>
           </div>
+
         </div>
       </div>
     </section>
