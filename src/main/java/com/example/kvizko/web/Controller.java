@@ -197,7 +197,6 @@ public class Controller {
 
         List<Choice> selectedChoices=(List<Choice>) session.getAttribute("selectedChoices");
         Choice selectedChoiceObj=choiceService.getById(selectedChoice);
-        selectedChoiceObj.setSelectionquestion(null);
         selectedChoices.add(selectedChoiceObj);
         session.setAttribute("selectedChoices", selectedChoices);
 

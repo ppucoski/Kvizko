@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Embeddable
 public class SelectedchoiceIdClass implements Serializable {
 
-    private long choiceid;
+    private Long choiceid;
 
     private long selectedchoiceid;
 

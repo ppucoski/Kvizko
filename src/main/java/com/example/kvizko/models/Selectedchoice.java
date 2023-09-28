@@ -24,5 +24,8 @@ public class Selectedchoice {
     this.selectedchoiceIdClass=new SelectedchoiceIdClass(choiceid, this.attempt.getAttemptid());
   }
 
-
+  @Override
+  public String toString() {
+    return String.valueOf(selectedchoiceIdClass.getChoiceid());
+  }
 }

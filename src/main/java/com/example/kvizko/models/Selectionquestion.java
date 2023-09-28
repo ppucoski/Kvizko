@@ -18,5 +18,9 @@ public class Selectionquestion {
   @OneToMany(mappedBy = "selectionquestion")
   private List<Choice> choices; //ova mozhe da se iskoristi za ponatamu
 
+  @Override
+  public String toString() {
+    return String.valueOf(questionid);
+  }
 
 }
