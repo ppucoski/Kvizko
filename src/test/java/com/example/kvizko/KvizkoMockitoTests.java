@@ -33,9 +33,6 @@ class KvizkoMockitoTests {
     @Mock
     private QuizService quizService;
 
-/*    @Mock
-    private CategoryService categoryService;*/
-
     @Mock
     private SubjectService subjectService;
 
@@ -47,54 +44,6 @@ class KvizkoMockitoTests {
 
     @Mock
     private UserService userService;
-
-   /* @Mock
-    private AttemptService attemptService;
-
-    @Mock
-    private ResultService resultService;
-
-    @Mock
-    private QuizTakerService quizTakerService;
-
-    @Mock
-    private SelectedchoiceService selectedchoiceService;
-
-    @Mock
-    private AdministratorRepository administratorRepository;
-
-    @Mock
-    private AvgpoenizakvizRepository avgpoenizakvizRepository;
-
-    @Mock
-    private BrturniribrigrachibrkvizovibrmedaliRepository brturniribrigrachibrkvizovibrmedaliRepository;
-
-    @Mock
-    private IzveshtajzaturnirRepository izveshtajzaturnirRepository;
-
-    @Mock
-    private KorisnicirangiranisporedmedaliRepository korisnicirangiranisporedmedaliRepository;
-
-    @Mock
-    private KvizovirangiranisporedtochniprashanjaRepository kvizovirangiranisporedtochniprashanjaRepository;
-
-    @Mock
-    private NajangazhiranikorisniciRepository najangazhiranikorisniciRepository;
-
-    @Mock
-    private NajigranikvizoviRepository najigranikvizoviRepository;
-
-    @Mock
-    private PrashanjarangiranisporedtochniodgovoriRepository prashanjarangiranisporedtochniodgovoriRepository;
-
-    @Mock
-    private Top5ReshavachiRepository top5ReshavachiRepository;
-
-    @Mock
-    private Vkbrojreshenikvizovivo3MeseciRepository vkbrojreshenikvizovivo3MeseciRepositoryRepository;
-
-    @Mock
-    private LeaderboardRepository leaderboardRepository;*/
 
     @Mock
     private HttpSession session;
