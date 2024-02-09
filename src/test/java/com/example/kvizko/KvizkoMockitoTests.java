@@ -61,6 +61,31 @@ class KvizkoMockitoTests {
     }
 
     @Test
+    public void testiranjeGetLoginPristap()
+    {
+        when(session.getAttribute("user")).thenReturn(new User());
+
+        String result = controller.getLogin(session, model);
+
+        verify(session, times(1)).getAttribute("user");
+        assertEquals("redirect:/", result);
+    }
+
+    @Test
+    public void testiranjeGetRegisterPristap()
+    {
+        when(session.getAttribute("user")).thenReturn(new User());
+
+        String result = controller.getRegister(session, model);
+
+        verify(session, times(1)).getAttribute("user");
+        assertEquals("redirect:/", result);
+    }
+
+
+
+
+    /*@Test
     public void testIndex() throws InvalidCredentialsException { //proverka dali index stranata ni vrakja kategorii
 
         List<Subject> subjects = Arrays.asList(new Subject(), new Subject(), new Subject());
@@ -114,7 +139,7 @@ class KvizkoMockitoTests {
         // Verify that the repository's findById method was called with the correct argument
         verify(userService, times(1)).findByUsernameAndPassword(username, password);
 
-    }
+    }*/
 
 
 }

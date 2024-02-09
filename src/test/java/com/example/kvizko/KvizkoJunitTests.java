@@ -3,6 +3,7 @@ package com.example.kvizko;
 import com.example.kvizko.exceptions.InvalidCredentialsException;
 import com.example.kvizko.models.User;
 import com.example.kvizko.service.UserService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,9 @@ public class KvizkoJunitTests {
     }
 
     @Test
-    public void invalidLoginTest() throws InvalidCredentialsException {
-        User user = userService.findByUsernameAndPassword("nevalidenLogin", "nevalidenLogin");
-        //Assertions.assertThrows(user);
+    public void invalidLoginTest() {
+        Assertions.assertThrows(InvalidCredentialsException.class, () -> {
+            userService.findByUsernameAndPassword("invalidLogin", "invalidLogin");
+        });
     }
 }
